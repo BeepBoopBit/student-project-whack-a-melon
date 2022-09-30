@@ -5,7 +5,9 @@
 package MyGUI;
 
 import MyLibrary.ImagePopper;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -20,23 +22,34 @@ public class GUI extends javax.swing.JFrame {
      */
     Timer myTimer = new Timer(0, null);
     int playerScore = 0;
-    ImagePopper myPopper = ImagePopper.get_instance();
+    ImagePopper myPopper = null;
 
     public GUI() {
         initComponents();
+        setUpList();
         myPopper.setGUI(this);
         myPopper.startPopping();
+        myPopper.setLabel(jLabel1);
+    }
+    
+    // Copyable
+    public void setUpList(){
+        ArrayList<JPanel> tempList = new ArrayList<>();
+        tempList.add(jPanel2);
+        tempList.add(jPanel3);
+        tempList.add(jPanel4);
+        tempList.add(jPanel5);
+        tempList.add(jPanel6);
+        tempList.add(jPanel7);
+        tempList.add(jPanel8);
+        tempList.add(jPanel9);
+        tempList.add(jPanel10);
+        myPopper = ImagePopper.get_instance(tempList);
     }
     
     public void addScore(){
         playerScore += 1;
-        jLabel1.setText(Integer.toString(playerScore));
     }
-    
-    public void addPanel(JPanel newPanel){
-        jLayeredPane1.add(newPanel);
-    }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,13 +69,12 @@ public class GUI extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(128, 128, 23));
         jPanel1.setLayout(new java.awt.GridLayout(3, 3));
-
-        jPanel2.setBackground(new java.awt.Color(10, 128, 128));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -77,8 +89,6 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2);
 
-        jPanel3.setBackground(new java.awt.Color(128, 20, 128));
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -91,8 +101,6 @@ public class GUI extends javax.swing.JFrame {
         );
 
         jPanel1.add(jPanel3);
-
-        jPanel4.setBackground(new java.awt.Color(128, 128, 30));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -107,8 +115,6 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4);
 
-        jPanel5.setBackground(new java.awt.Color(128, 128, 30));
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -122,8 +128,6 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel1.add(jPanel5);
 
-        jPanel6.setBackground(new java.awt.Color(10, 0, 128));
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -136,8 +140,6 @@ public class GUI extends javax.swing.JFrame {
         );
 
         jPanel1.add(jPanel6);
-
-        jPanel7.setBackground(new java.awt.Color(128, 128, 100));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -191,19 +193,28 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel1.add(jPanel10);
 
+        jLabel1.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel1)))
                 .addContainerGap(90, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(78, 78, 78)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(56, 56, 56)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(411, Short.MAX_VALUE))
         );
@@ -247,6 +258,7 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
