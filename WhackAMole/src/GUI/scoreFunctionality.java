@@ -7,6 +7,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -72,7 +75,7 @@ public class scoreFunctionality {
                 try {
                     playerName = JOptionPane.showInputDialog("Enter your name(max of 5 chars):");
                     if(playerName.length()>nameLimit) {throw new ArrayIndexOutOfBoundsException(); }
-                    if(playerName == "") {playerName = "Anonymous";}
+                    if(playerName.equals("")) {playerName = "Anonymous";}
                     int counter = 0;
                     for (char c:playerName.toCharArray()) {
                         if (!Character.isLetterOrDigit(c)) {
@@ -99,9 +102,8 @@ public class scoreFunctionality {
             System.out.println(playerName);
             //get difficulty and time
             //ph
-            encoder.write(playerName+regex+difficulty[2]+regex+java.time.LocalDateTime.now()+regex+score+"\n");
+            encoder.write(playerName+regex+difficulty[1]+regex+java.time.LocalDateTime.now()+regex+score+"\n");
             encoder.close();
-            
         }
         catch (Exception e) {
             System.out.println("An error occurred: "+e);
@@ -109,9 +111,23 @@ public class scoreFunctionality {
         //sorter
         try (BufferedReader localFile = new BufferedReader(new FileReader("src/GUI/localLeaderboard.txt"))) {
             String data = null;
+            int arrayListIndex = 0;
+            ArrayList<String> line = new ArrayList<>(); //storing entire line
+            HashMap<Integer, Integer> dict = new HashMap<>(); //storing [index, score]
             while ((data=localFile.readLine())!=null) {
-                
+                dict.put(arrayListIndex, Integer.parseInt(data.substring(42, data.length())));
+                line.add(data);
+                arrayListIndex++;
             }
+            
+            //testing
+            try {
+                dict.forEach((key,value) -> System.out.println("[Key]:"+key+"[Value]:"+value));
+                for (String d:line) {
+                System.out.println(d);
+                }
+            }
+            catch (Exception e) {}
         }
         catch (Exception e) {}
     }
@@ -145,7 +161,7 @@ public class scoreFunctionality {
             String dataRow = null;
             while ((dataRow = localFile.readLine())!= null) {
                 model.addRow(new Object[] {
-                    dataRow.substring(0, 9),dataRow.substring(11, 16),dataRow.substring(18, 40),dataRow.substring(41, dataRow.length())//these values are the format of the .txt
+                    dataRow.substring(0, 9),dataRow.substring(11, 17),dataRow.substring(18, 40),dataRow.substring(42, dataRow.length())//these values are the format of the .txt
                 });
             }
         }
