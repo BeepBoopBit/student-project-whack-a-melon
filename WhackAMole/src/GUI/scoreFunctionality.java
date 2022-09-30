@@ -62,12 +62,15 @@ public class scoreFunctionality {
     void saveToLeaderboard() {
         //working
         String regex = " ";
+        String[] difficulty = {"Hard  ","Medium","Easy  "};
+        int nameLimit = 5;
         try (BufferedWriter encoder = new BufferedWriter(new FileWriter("src/GUI/localLeaderboard.txt",true))) {
             Boolean isAlphanumerical = Boolean.FALSE;
             String playerName = "";
             while (!isAlphanumerical) {
                 try {
                     playerName = JOptionPane.showInputDialog("Enter your name(max of 5 chars):");
+                    if(playerName.length()>nameLimit) {throw new ArrayIndexOutOfBoundsException(); }
                     int counter = 0;
                     for (char c:playerName.toCharArray()) {
                         if (!Character.isLetterOrDigit(c)) {
@@ -75,18 +78,26 @@ public class scoreFunctionality {
                         }
                     }
                     if (counter==0&&playerName!="") {isAlphanumerical = Boolean.TRUE; }
-                    else {throw new ArithmeticException("Not a digit nor lettter!");}//ignore the fact its arithmeticexeption (just want to ignore nullpointerexception when the player cancels)
+                    else {throw new ArithmeticException();}//ignore the fact its arithmeticexeption (just want to ignore nullpointerexception when the player cancels)
                 }
                 catch (ArithmeticException e) {
                     JOptionPane.showMessageDialog(null, "Not a digit nor lettter!");
                 }
+                catch (ArrayIndexOutOfBoundsException e2) {
+                    JOptionPane.showMessageDialog(null, "Must be 5 characters or less!");
+                }
             }
             //limit name to five
-            if (playerName.length()>5) {playerName = playerName.substring(0, 5);}
+//            if (playerName.length()>5) {playerName = playerName.substring(0, 5);}
+            if (playerName.length()<nameLimit) { 
+                for (int i = playerName.length();i<nameLimit;i++){
+                    playerName = playerName + " ";
+                }
+            }
             System.out.println(playerName);
             //get difficulty and time
-            String difficulty = "Hard";//ph
-            encoder.write(playerName+regex+difficulty+regex+java.time.LocalDateTime.now()+regex+score+"\n");
+            //ph
+            encoder.write(playerName+regex+difficulty[2]+regex+java.time.LocalDateTime.now()+regex+score+"\n");
             encoder.close();
         }
         catch (Exception e) {
