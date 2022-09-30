@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author V
@@ -60,12 +61,32 @@ public class scoreFunctionality {
     
     void saveToLeaderboard() {
         //working
+        String regex = " ";
         try (BufferedWriter encoder = new BufferedWriter(new FileWriter("src/GUI/localLeaderboard.txt",true))) {
-            String playerName = JOptionPane.showInputDialog("Enter your name.");
-            //could add little complexity to limit the name into the first four/five;
+            Boolean isAlphanumerical = Boolean.FALSE;
+            String playerName = "";
+            while (!isAlphanumerical) {
+                try {
+                    playerName = JOptionPane.showInputDialog("Enter your name(max of 5 chars):");
+                    int counter = 0;
+                    for (char c:playerName.toCharArray()) {
+                        if (!Character.isLetterOrDigit(c)) {
+                            counter++;
+                        }
+                    }
+                    if (counter==0&&playerName!="") {isAlphanumerical = Boolean.TRUE; }
+                    else {throw new ArithmeticException("Not a digit nor lettter!");}//ignore the fact its arithmeticexeption (just want to ignore nullpointerexception when the player cancels)
+                }
+                catch (ArithmeticException e) {
+                    JOptionPane.showMessageDialog(null, "Not a digit nor lettter!");
+                }
+            }
+            //limit name to five
+            if (playerName.length()>5) {playerName = playerName.substring(0, 5);}
+            System.out.println(playerName);
             //get difficulty and time
             String difficulty = "Hard";//ph
-            encoder.write(playerName+" "+difficulty+" "+java.time.LocalDateTime.now() +" "+score+"\n");
+            encoder.write(playerName+regex+difficulty+regex+java.time.LocalDateTime.now()+regex+score+"\n");
             encoder.close();
         }
         catch (Exception e) {
@@ -97,7 +118,15 @@ public class scoreFunctionality {
                 }
             });
             //
-            
+            table.setAutoCreateRowSorter(true);
+            DefaultTableModel model = (DefaultTableModel)table.getModel();
+            model.setRowCount(0);
+            String dataRow = null;
+            while ((dataRow = localFile.readLine())!= null) {
+                model.addRow(new Object[] {
+                    
+                });
+            }
         }
         catch (Exception e) {
             
