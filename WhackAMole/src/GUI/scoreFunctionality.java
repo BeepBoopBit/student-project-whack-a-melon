@@ -56,7 +56,7 @@ public class scoreFunctionality {
     void exitGame(javax.swing.JFrame frame) {
         resetScore();
         saveToLeaderboard();
-        frame.setVisible(false);
+        frame.setVisible(false);//does not stop the program!!!
     }
     
     void saveToLeaderboard() {
@@ -136,7 +136,7 @@ public class scoreFunctionality {
             String dataRow = null;
             while ((dataRow = localFile.readLine())!= null) {
                 model.addRow(new Object[] {
-                    
+                    dataRow.substring(0, 9),dataRow.substring(11, 16),dataRow.substring(18, 40),dataRow.substring(41, dataRow.length())//these values are the format of the .txt
                 });
             }
         }
