@@ -63,7 +63,7 @@ public class scoreFunctionality {
         //working
         String regex = " ";
         String[] difficulty = {"Hard  ","Medium","Easy  "};
-        int nameLimit = 5;
+        int nameLimit = 10;
         try (BufferedWriter encoder = new BufferedWriter(new FileWriter("src/GUI/localLeaderboard.txt",true))) {
             Boolean isAlphanumerical = Boolean.FALSE;
             String playerName = "";
@@ -71,13 +71,14 @@ public class scoreFunctionality {
                 try {
                     playerName = JOptionPane.showInputDialog("Enter your name(max of 5 chars):");
                     if(playerName.length()>nameLimit) {throw new ArrayIndexOutOfBoundsException(); }
+                    if(playerName == "") {playerName = "Anonymous";}
                     int counter = 0;
                     for (char c:playerName.toCharArray()) {
                         if (!Character.isLetterOrDigit(c)) {
                             counter++;
                         }
                     }
-                    if (counter==0&&playerName!="") {isAlphanumerical = Boolean.TRUE; }
+                    if (counter==0) {isAlphanumerical = Boolean.TRUE; }
                     else {throw new ArithmeticException();}//ignore the fact its arithmeticexeption (just want to ignore nullpointerexception when the player cancels)
                 }
                 catch (ArithmeticException e) {
