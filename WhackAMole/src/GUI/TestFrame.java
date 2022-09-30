@@ -196,7 +196,7 @@ public class TestFrame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
 //        table = score.writeLocalFile();
-        table.setModel(score.writeLocalFile().getModel());
+        table.setModel(score.updateTable().getModel());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

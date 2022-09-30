@@ -64,6 +64,7 @@ public class scoreFunctionality {
         String regex = " ";
         String[] difficulty = {"Hard  ","Medium","Easy  "};
         int nameLimit = 10;
+        //encoder
         try (BufferedWriter encoder = new BufferedWriter(new FileWriter("src/GUI/localLeaderboard.txt",true))) {
             Boolean isAlphanumerical = Boolean.FALSE;
             String playerName = "";
@@ -85,7 +86,7 @@ public class scoreFunctionality {
                     JOptionPane.showMessageDialog(null, "Not a digit nor lettter!");
                 }
                 catch (ArrayIndexOutOfBoundsException e2) {
-                    JOptionPane.showMessageDialog(null, "Must be 5 characters or less!");
+                    JOptionPane.showMessageDialog(null, "Must be " + nameLimit +"characters or less!");
                 }
             }
             //limit name to five
@@ -100,15 +101,24 @@ public class scoreFunctionality {
             //ph
             encoder.write(playerName+regex+difficulty[2]+regex+java.time.LocalDateTime.now()+regex+score+"\n");
             encoder.close();
+            
         }
         catch (Exception e) {
             System.out.println("An error occurred: "+e);
         }
+        //sorter
+        try (BufferedReader localFile = new BufferedReader(new FileReader("src/GUI/localLeaderboard.txt"))) {
+            String data = null;
+            while ((data=localFile.readLine())!=null) {
+                
+            }
+        }
+        catch (Exception e) {}
     }
     
     //viewing scoreboard (new panel)?
     //remaining task (own  automated score sorter)
-    javax.swing.JTable writeLocalFile() {
+    javax.swing.JTable updateTable() {
         //wip
         javax.swing.JTable table = new javax.swing.JTable();
         try (BufferedReader localFile = new BufferedReader(new FileReader("src/GUI/localLeaderboard.txt"))){
@@ -130,7 +140,6 @@ public class scoreFunctionality {
                 }
             });
             //
-            table.setAutoCreateRowSorter(true);
             DefaultTableModel model = (DefaultTableModel)table.getModel();
             model.setRowCount(0);
             String dataRow = null;
