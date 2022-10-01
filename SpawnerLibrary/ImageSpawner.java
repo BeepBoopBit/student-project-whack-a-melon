@@ -3,6 +3,7 @@ package SpawnerLibrary;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import javax.swing.Timer;
 
 
@@ -12,7 +13,9 @@ public class ImageSpawner {
     Timer _frequencyTimer = null;
     
     // Constructors
-    public ImageSpawner(){}
+    public ImageSpawner(){
+        _frequecyDelay = (new Random()).nextInt(500,1500);
+    }
     
     // Relevant Methods
     public void attachGridPanel(GridPanel myGrid){
