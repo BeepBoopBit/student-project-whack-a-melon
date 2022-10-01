@@ -3,13 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package GUI;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -25,6 +26,9 @@ public class scoreFunctionality {
     
     void scoreboardWhilePlaying(javax.swing.JLabel label) {
         //working
+        if (score==0) {
+            label.setFont(new Font("Unispace", label.getFont().getStyle(), 18));
+        }
         score++;
         if (score<10) {
             //9...1
@@ -99,39 +103,114 @@ public class scoreFunctionality {
                     playerName = playerName + " ";
                 }
             }
-            System.out.println(playerName);
+//            System.out.println(playerName);
             //get difficulty and time
             //ph
             encoder.write(playerName+regex+difficulty[1]+regex+java.time.LocalDateTime.now()+regex+score+"\n");
+            encoder.flush();
             encoder.close();
         }
         catch (Exception e) {
             System.out.println("An error occurred: "+e);
         }
         //sorter
-        try (BufferedReader localFile = new BufferedReader(new FileReader("src/GUI/localLeaderboard.txt"))) {
+        /*
+        ArrayList = entire string
+        2D array:
+            [0] = position in writing
+            [1] = index in arrayList
+            [2] = score
+        */
+        sorter();
+    }
+    
+    void sorter() {
+        try (BufferedReader file = new BufferedReader(new FileReader("src/GUI/localLeaderboard.txt"))) {
+            //initialization and declaration
             String data = null;
             int arrayListIndex = 0;
             ArrayList<String> line = new ArrayList<>(); //storing entire line
-            HashMap<Integer, Integer> dict = new HashMap<>(); //storing [index, score]
-            while ((data=localFile.readLine())!=null) {
-                dict.put(arrayListIndex, Integer.parseInt(data.substring(42, data.length())));
+            int[][] array;
+//          HashMap<Integer, Integer> dict = new HashMap<>(); //storing [index, score]
+            while ((data=file.readLine())!=null) {
+//               dict.put(arrayListIndex, Integer.parseInt(data.substring(42, data.length())));
                 line.add(data);
-                arrayListIndex++;
             }
-            
-            //testing
-            try {
-                dict.forEach((key,value) -> System.out.println("[Key]:"+key+"[Value]:"+value));
-                for (String d:line) {
-                System.out.println(d);
+            arrayListIndex = line.size();
+            System.out.println("Array length " + arrayListIndex);
+            array = new int[3][arrayListIndex];
+            for (int i = 0;i<2;i++) {
+                for (int k = 0; k<arrayListIndex;k++) {
+                    array[i][k] = k;
                 }
             }
-            catch (Exception e) {}
+            for (int k=0; k<arrayListIndex;k++) {
+                array[2][k] = Integer.parseInt((line.get(k)).substring(42, line.get(k).length())); //aggregatiion of getting e.g the score of 30 or 1000
+            }
+            System.out.println("Before");
+            for (int i = 0;i<3;i+=2) {
+                for (int k = 0; k<arrayListIndex;k++) {
+                    System.out.println("i: "+i+" k: "+k+" "+array[i][k]);
+                }
+            }
+            //sort
+            try {
+                for (int i = 0 ;i< arrayListIndex-1; i++){
+                    int min = i;
+                    for (int j = i+1; j< arrayListIndex; j++){
+                        if (array[2][j] > array[2][min]){
+                            min = j;
+                        }
+                    }
+                    int temp = array[2][min];
+                    array[2][min] = array[2][i];
+                    array[2][i] = temp;
+                    temp = array[1][min];
+                    array[1][min] = array[1][i];
+                    array[1][i] = temp;
+                }
+            }
+            catch (Exception e) {System.out.println("Error "+e);}
+
+            System.out.println("After");
+            //testing
+            try {
+//              dict.forEach((key,value) -> System.out.println("[Key]:"+key+"[Value]:"+value));
+                for (int i = 0;i<3;i+=2) {
+                    for (int k = 0; k<arrayListIndex;k++) {
+                        System.out.println("i: "+i+" k: "+k+" "+array[i][k]);
+                    }
+                }
+            }
+            catch (Exception e) {System.out.println(e);}
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/GUI/placeholder.txt",true))) {
+                //i = position, k = index in list
+                
+                for (int i=0;i<arrayListIndex;i++) {
+                    for (int k=0;k<arrayListIndex;k++) {
+                        if (array[0][k]==i) {
+                            int index = array[1][k];
+                            writer.write(line.get(index)+"\n");
+                        }
+                    }
+                }
+                writer.flush();
+                writer.close();
+            }
+            catch (Exception e) {System.out.println("writing file error: "+e);}
+            file.close();
+            File oldFile = new File("src/GUI/localLeaderboard.txt");
+            if (oldFile.delete()) {
+                System.out.println("Deleted file");
+            }
+            else {
+                System.out.println("Can't delete");
+            }
+            File newFile = new File("src/GUI/placeholder.txt");
+            newFile.renameTo(oldFile);
         }
-        catch (Exception e) {}
+        catch (Exception e) {System.out.println(e);}
     }
-    
     //viewing scoreboard (new panel)?
     //remaining task (own  automated score sorter)
     javax.swing.JTable updateTable() {
