@@ -11,7 +11,9 @@ class GridPanel {
         _panel = panel;
     }
     
+    // Change the state of the panel
     public void changeState(){
+        // will be change in the future
         if(_isDefault){
             _panel.setBackground(Color.RED);
         }else{

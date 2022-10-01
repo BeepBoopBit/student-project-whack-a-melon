@@ -8,7 +8,10 @@ import javax.swing.JPanel;
 
 // Handles all the Spawing Of Images
 public class ImageSpawnerController {
+    // Singleton variable
     private static ImageSpawnerController _instance = null;
+    
+    // Stores all the ImageSpawners
     private ArrayList<ImageSpawner> _spawners = new ArrayList<>();
     
     // Constructors

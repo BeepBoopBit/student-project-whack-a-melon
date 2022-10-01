@@ -14,6 +14,7 @@ public class ImageSpawner {
     
     // Constructors
     public ImageSpawner(){
+        // Randomize the delay of the timer [500, 1500)
         _frequecyDelay = (new Random()).nextInt(500,1500);
     }
     
@@ -41,6 +42,7 @@ public class ImageSpawner {
     // Main
     public void start(){
         if(_frequencyTimer == null){
+            // initialize the timer to call spawn() method when it is prompted
             _frequencyTimer = new Timer(_frequecyDelay, new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e){
@@ -48,6 +50,8 @@ public class ImageSpawner {
                 }
             });
         }
+        
+        // Start the timer
         _frequencyTimer.start();
     }
     
