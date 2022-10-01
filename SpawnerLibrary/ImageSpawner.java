@@ -3,16 +3,12 @@ package SpawnerLibrary;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Timer;
 
 
 public class ImageSpawner {
     private GridPanel _grid = null;
-    private int _delay = 0;
     private int _frequecyDelay = 500;
-    private int tempCounter = 0;
     Timer _frequencyTimer = null;
     
     // Constructors
@@ -24,8 +20,13 @@ public class ImageSpawner {
     }
     
     // Can change runtime
-    public void changeDelay(int delay){
-        _delay = delay;
+    public void delay(int delay){
+        int myDelay = _frequencyTimer.getDelay() + delay;
+        _frequencyTimer.setDelay(myDelay);
+    }
+    public void accelerate(int accelerate){
+        int myAccelerate = _frequencyTimer.getDelay() - accelerate;
+        _frequencyTimer.setDelay(myAccelerate);
     }
     
     // Should be call before calling start() method
@@ -40,7 +41,7 @@ public class ImageSpawner {
             _frequencyTimer = new Timer(_frequecyDelay, new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e){
-                    scheduledSpawner();
+                    spawn();
                 }
             });
         }
@@ -48,18 +49,8 @@ public class ImageSpawner {
     }
     
     // Spawing
-    private void scheduledSpawner(){
-        try {
-            Thread.sleep(_delay);
-            auxillarySpawner();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ImageSpawner.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void auxillarySpawner(){
-        System.out.println("Thread:" + Thread.currentThread().getId() + " -- Counter: " + tempCounter);
-        tempCounter += 1;
+    private void spawn(){
+        _grid.changeState();
     }
     
 }
