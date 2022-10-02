@@ -81,6 +81,11 @@ public class ScoreController {
         _lifeLabel.setText(Integer.toString(_life));
     }
     
+    // Decrease the score of the player
+    public void decreaseScore(int decrease){
+        _score -= decrease;
+    }
+    
     // Setters
     
     // Set the difficulty to the game when saving (does not affect the gameplay)
@@ -134,6 +139,9 @@ public class ScoreController {
     public void populateTable(){
         // Get the data
         ArrayList<String[]> fileData = getDataFromFile();
+        
+        // Sort the data
+        sorter(fileData);
         
         // Get the model of the attached table
         DefaultTableModel myModel = (DefaultTableModel) _scoreTable.getModel();

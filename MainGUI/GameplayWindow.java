@@ -573,38 +573,41 @@ public class GameplayWindow extends javax.swing.JFrame {
     private void Button_Power4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power4ActionPerformed
         // Change the RIGHT value if you want to change how much should
         // the player cost per each use of ADD LIFE power-up
-        if(Integer.parseInt(Label_Score.getText()) >= 100){
+        if(Integer.parseInt(Label_Score.getText()) >= 30){
             Button_Power4.setEnabled(false);
             _controller.addLife();
             _powerUpTimer[3].start();
+            _controller.decreaseScore(30);
         }
     }//GEN-LAST:event_Button_Power4ActionPerformed
 
     private void Button_Power1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power1ActionPerformed
         // Change the RIGHT value if you want to change how much should
         // the player cost per each use of FREEZE power-up
-        if(Integer.parseInt(Label_Score.getText()) >= 20){
+        if(Integer.parseInt(Label_Score.getText()) >= 10){
             Button_Power1.setEnabled(false);
             _powerUpTimer[0].start();
             _spawner.randomDelayAll(2500, 5000);
             _freezeTimer.start();
+            _controller.decreaseScore(10);
         }
     }//GEN-LAST:event_Button_Power1ActionPerformed
 
     private void Button_Power2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power2ActionPerformed
         // Change the RIGHT value if you want to change how much should
         // the player cost per each use of KILL ALL power-up
-        if(Integer.parseInt(Label_Score.getText()) >= 75){
+        if(Integer.parseInt(Label_Score.getText()) >= 20){
             Button_Power2.setEnabled(false);
             _spawner.killAll();
             _powerUpTimer[1].start();
+            _controller.decreaseScore(20);
         }
     }//GEN-LAST:event_Button_Power2ActionPerformed
 
     private void Button_Power3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power3ActionPerformed
         // Change the RIGHT value if you want to change how much should
         // the player cost per each use of BLOCK power-up
-        if(Integer.parseInt(Label_Score.getText()) >= 50){
+        if(Integer.parseInt(Label_Score.getText()) >= 15){
             Button_Power3.setEnabled(false);
             _blockTimer.start();
             Random rand = new Random();
@@ -612,6 +615,7 @@ public class GameplayWindow extends javax.swing.JFrame {
             _spawner.stop(_currentBlockIndex);
             _spawner.reset(_currentBlockIndex);
             _powerUpTimer[2].start();
+            _controller.decreaseScore(15);
         }
     }//GEN-LAST:event_Button_Power3ActionPerformed
 
