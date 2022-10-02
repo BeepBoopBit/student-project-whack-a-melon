@@ -2,11 +2,70 @@ package MainGUI;
 
 import Scoreboard.ScoreController;
 import SpawnerLibrary.ImageSpawnerController;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 
 public class GameplayWindow extends javax.swing.JFrame {
 
     ImageSpawnerController _spawner = ImageSpawnerController.getInstance();
     ScoreController _controller = ScoreController.getInstance();
+
+    Timer _powerUpTimer[] ={
+        new Timer(1000,new ActionListener(){
+            int _elapseTime = 1000*45;
+            @Override
+            public void actionPerformed(ActionEvent e){
+                _elapseTime -= 1000;
+                String minutes = Integer.toString((_elapseTime/60000) % 60);
+                String seconds = Integer.toString((_elapseTime/1000) % 60);
+                Button_Power1.setText(minutes + ':' + seconds);
+                if(_elapseTime == 0){
+                    stopTimer(0);
+                }
+            }
+        }),
+        new Timer(1000,new ActionListener(){
+            int _elapseTime = 1000*25;
+            @Override
+            public void actionPerformed(ActionEvent e){
+                _elapseTime -= 1000;
+                String minutes = Integer.toString((_elapseTime/60000) % 60);
+                String seconds = Integer.toString((_elapseTime/1000) % 60);
+                Button_Power2.setText(minutes + ':' + seconds);
+                if(_elapseTime == 0){
+                    stopTimer(0);
+                }
+            }
+        }),
+        new Timer(1000,new ActionListener(){
+            int _elapseTime = 1000*60;
+            @Override
+            public void actionPerformed(ActionEvent e){
+                _elapseTime -= 1000;
+                String minutes = Integer.toString((_elapseTime/60000) % 60);
+                String seconds = Integer.toString((_elapseTime/1000) % 60);
+                Button_Power3.setText(minutes + ':' + seconds);
+                if(_elapseTime == 0){
+                    stopTimer(0);
+                }
+            }
+        }),
+        new Timer(1000,new ActionListener(){
+            int _elapseTime = 1000*60*2;
+            @Override
+            public void actionPerformed(ActionEvent e){
+                _elapseTime -= 1000;
+                String minutes = Integer.toString((_elapseTime/60000) % 60);
+                String seconds = Integer.toString((_elapseTime/1000) % 60);
+                Button_Power4.setText(minutes + ':' + seconds);
+                if(_elapseTime == 0){
+                    stopTimer(0);
+                }
+            }
+        })
+    };
+    
     public GameplayWindow() {
         initComponents();
         
@@ -15,9 +74,12 @@ public class GameplayWindow extends javax.swing.JFrame {
         
         // Attach Components to the controller
         setUpController();
-        
+
         // Start spawing all the images
         _spawner.startAll();
+        
+        // Temporary
+        _spawner.delayAll(1000);
     }
     
     private void setUpSpawner(){
@@ -30,6 +92,7 @@ public class GameplayWindow extends javax.swing.JFrame {
         _spawner.addPanel(Grid_6);
         _spawner.addPanel(Grid_7);
         _spawner.addPanel(Grid_8);
+        
     }
     
     private void setUpController(){
@@ -40,6 +103,10 @@ public class GameplayWindow extends javax.swing.JFrame {
     
     public void exit(){
         Button_BackMousePressed(null);
+    }
+    
+    public void stopTimer(int index){
+        _powerUpTimer[index].stop();
     }
     
     @SuppressWarnings("unchecked")
@@ -281,12 +348,32 @@ public class GameplayWindow extends javax.swing.JFrame {
         Panel_PowerUp.setBackground(new java.awt.Color(122, 133, 144));
 
         Button_Power1.setText("jButton1");
+        Button_Power1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_Power1ActionPerformed(evt);
+            }
+        });
 
         Button_Power2.setText("jButton2");
+        Button_Power2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_Power2ActionPerformed(evt);
+            }
+        });
 
         Button_Power3.setText("jButton3");
+        Button_Power3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_Power3ActionPerformed(evt);
+            }
+        });
 
         Button_Power4.setText("jButton4");
+        Button_Power4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_Power4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout Panel_PowerUpLayout = new javax.swing.GroupLayout(Panel_PowerUp);
         Panel_PowerUp.setLayout(Panel_PowerUpLayout);
@@ -393,9 +480,30 @@ public class GameplayWindow extends javax.swing.JFrame {
         _newWindow.appear(true);
     }//GEN-LAST:event_Button_BackMousePressed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void Button_Power4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power4ActionPerformed
+        Button_Power4.setEnabled(false);
+        _controller.addLife();
+        _powerUpTimer[3].start();
+    }//GEN-LAST:event_Button_Power4ActionPerformed
+
+    private void Button_Power1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power1ActionPerformed
+        Button_Power1.setEnabled(false);
+        _controller.addLife();
+        _powerUpTimer[0].start();
+    }//GEN-LAST:event_Button_Power1ActionPerformed
+
+    private void Button_Power2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power2ActionPerformed
+        Button_Power2.setEnabled(false);
+        _controller.addLife();
+        _powerUpTimer[1].start();
+    }//GEN-LAST:event_Button_Power2ActionPerformed
+
+    private void Button_Power3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power3ActionPerformed
+        Button_Power3.setEnabled(false);
+        _controller.addLife();
+        _powerUpTimer[2].start();
+    }//GEN-LAST:event_Button_Power3ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

@@ -529,21 +529,33 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="jButton1"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_Power1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="Button_Power2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="jButton2"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_Power2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="Button_Power3">
               <Properties>
                 <Property name="text" type="java.lang.String" value="jButton3"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_Power3ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="Button_Power4">
               <Properties>
                 <Property name="text" type="java.lang.String" value="jButton4"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_Power4ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

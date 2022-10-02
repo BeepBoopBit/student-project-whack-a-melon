@@ -50,6 +50,11 @@ public class ScoreController {
         _window = newWindow;
     }
     
+    public void addLife(){
+        _life += 1;
+        _lifeLabel.setText(Integer.toString(_life));
+    }
+    
     public void addScore() {
         // Add Score
         _score++;
