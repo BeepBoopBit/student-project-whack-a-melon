@@ -4,12 +4,14 @@ import Scoreboard.ScoreController;
 import SpawnerLibrary.ImageSpawnerController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import javax.swing.Timer;
 
 public class GameplayWindow extends javax.swing.JFrame {
 
     ImageSpawnerController _spawner = ImageSpawnerController.getInstance();
     ScoreController _controller = ScoreController.getInstance();
+    int _currentBlockIndex = 0;
 
     Timer _powerUpTimer[] ={
         new Timer(1000,new ActionListener(){
@@ -75,6 +77,16 @@ public class GameplayWindow extends javax.swing.JFrame {
                     unFreeze();
                 }
             }
+    });    
+    Timer _blockTimer = new Timer(1000 ,new ActionListener(){
+            int _elapseTime = 1000*10;
+            @Override
+            public void actionPerformed(ActionEvent e){
+                _elapseTime -= 1000;
+                if(_elapseTime == 0){
+                    unBlock();
+                }
+            }
     });
     
     public GameplayWindow() {
@@ -123,6 +135,11 @@ public class GameplayWindow extends javax.swing.JFrame {
     public void unFreeze(){
         _spawner.resetDelay();
         _freezeTimer.stop();
+    }
+    
+    public void unBlock(){
+        _blockTimer.stop();
+        _spawner.start(_currentBlockIndex);
     }
     
     @SuppressWarnings("unchecked")
@@ -517,6 +534,11 @@ public class GameplayWindow extends javax.swing.JFrame {
 
     private void Button_Power3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power3ActionPerformed
         Button_Power3.setEnabled(false);
+        _blockTimer.start();
+        Random rand = new Random();
+        _currentBlockIndex = rand.nextInt(0,9);
+        _spawner.stop(_currentBlockIndex);
+        _spawner.reset(_currentBlockIndex);
         _powerUpTimer[2].start();
     }//GEN-LAST:event_Button_Power3ActionPerformed
 

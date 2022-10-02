@@ -27,6 +27,12 @@ public class ImageSpawner {
     public void resetDelay(){
         _frequencyTimer.setDelay(_defaultDelay);
     }
+    public void stop(){
+        _frequencyTimer.stop();
+    }
+    public void resetState(){
+        _grid.setDefault();
+    }
     
     // Can change runtime
     public void delay(int delay){

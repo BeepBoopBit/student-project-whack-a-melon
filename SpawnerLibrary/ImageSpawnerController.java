@@ -37,7 +37,12 @@ public class ImageSpawnerController {
         // Add it to the array
         _spawners.add(newSpawner);
     }
-    
+    public void reset(int i){
+        _spawners.get(i).resetState();
+    }
+    public void start(int i){
+        _spawners.get(i).start();
+    }
     public void startAll(){
         for(int i = 0; i < _spawners.size(); ++i){
             _spawners.get(i).start();
@@ -54,6 +59,10 @@ public class ImageSpawnerController {
         for(int i = 0; i < _spawners.size(); ++i){
             _spawners.get(i).resetDelay();
         }
+    }
+    
+    public void stop(int i){
+        _spawners.get(i).stop();
     }
     
     // delay by the default 100
