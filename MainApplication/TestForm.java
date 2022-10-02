@@ -1,11 +1,6 @@
 package MainApplication;
 
 import SpawnerLibrary.ImageSpawnerController;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-import javax.swing.table.DefaultTableModel;
-
 public class TestForm extends javax.swing.JFrame {
 
     ImageSpawnerController _controller = ImageSpawnerController.getInstance();

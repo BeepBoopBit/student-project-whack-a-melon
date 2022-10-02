@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -20,14 +21,19 @@ public class ScoreController {
     String preScoreText[] = {"000","00","0"};
     JTable _scoreTable = null;
     String _difficulty = "MEDIUM";
+    JLabel _label = null;
     
-    
+    // Should be called once before saving to the leaderboard
     void attachTable(JTable table){
         _scoreTable = table;
     }
-        
     
-    void addScore(javax.swing.JLabel label) {
+    // Should be called once before adding a score
+    void attachLabel(JLabel newLabel){
+        _label = newLabel;
+    }
+    
+    void addScore() {
         // set the text to null
         String scoreText = null;
         
@@ -47,7 +53,7 @@ public class ScoreController {
         scoreText = preScoreText[_currentMaxIndex] + Integer.toString(_score);
         
         // set the text of the labe in relates to the score
-        label.setText(scoreText);
+        _label.setText(scoreText);
     }
     
     
@@ -163,11 +169,17 @@ public class ScoreController {
         while (!isAlphanumerical) {
                 try {
                     userInput = JOptionPane.showInputDialog("Enter your name: ");
+        
                     //check if userInput is longer than the limit
-                    if(userInput.length()>userInputLimit) {throw new ArrayIndexOutOfBoundsException(); }
+                    if(userInput.length()>userInputLimit) {
+                        throw new ArrayIndexOutOfBoundsException(); 
+                    }
+                    
                     //check if userInput is empty
-                    if(userInput.equals("")) {userInput = "Anonymous";}
-                    int counter = 0;
+                    if(userInput.equals("")) {
+                        userInput = "Anonymous";
+                    }
+                    
                     //loop through the entire thing to find if there's a non-digit or letter inside the string
                     for (char c:userInput.toCharArray()) {
                         if (!Character.isLetterOrDigit(c)) {
@@ -175,12 +187,14 @@ public class ScoreController {
                         }
                     }
                     //break out of the while loop
-                    if (counter==0) {isAlphanumerical = Boolean.TRUE; }
+                    isAlphanumerical = Boolean.TRUE; 
                 }
-                catch (ArithmeticException e) {//irrelevant exception handler name, used as a placeholder to not trigger nullpointerexception when the player cancels
+                catch (ArithmeticException e) {
+                    //irrelevant exception handler name, used as a placeholder to not trigger nullpointerexception when the player cancels
                     JOptionPane.showMessageDialog(null, "Contains symbols and spaces! Limited to only digits and letters.");
                 }
-                catch (ArrayIndexOutOfBoundsException e2) {//irrelevant exception handler name, used as a placeholder to not trigger nullpointerexception when the player cancels
+                catch (ArrayIndexOutOfBoundsException e2) {
+                    //irrelevant exception handler name, used as a placeholder to not trigger nullpointerexception when the player cancels
                     JOptionPane.showMessageDialog(null, "Must be " + userInputLimit +"characters or less!");
                 }
             }
