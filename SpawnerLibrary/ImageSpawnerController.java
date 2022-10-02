@@ -44,6 +44,18 @@ public class ImageSpawnerController {
         }
     }
     
+    public void killAll(){
+        for(int i = 0; i < _spawners.size(); ++i){
+            _spawners.get(i).kill();
+        }
+    }
+    
+    public void resetDelay(){
+        for(int i = 0; i < _spawners.size(); ++i){
+            _spawners.get(i).resetDelay();
+        }
+    }
+    
     // delay by the default 100
     public void delayAll(){
         for(int i = 0; i < _spawners.size(); ++i){

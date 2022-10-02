@@ -66,6 +66,17 @@ public class GameplayWindow extends javax.swing.JFrame {
         })
     };
     
+    Timer _freezeTimer = new Timer(1000 ,new ActionListener(){
+            int _elapseTime = 1000*10;
+            @Override
+            public void actionPerformed(ActionEvent e){
+                _elapseTime -= 1000;
+                if(_elapseTime == 0){
+                    unFreeze();
+                }
+            }
+    });
+    
     public GameplayWindow() {
         initComponents();
         
@@ -107,6 +118,11 @@ public class GameplayWindow extends javax.swing.JFrame {
     
     public void stopTimer(int index){
         _powerUpTimer[index].stop();
+    }
+    
+    public void unFreeze(){
+        _spawner.resetDelay();
+        _freezeTimer.stop();
     }
     
     @SuppressWarnings("unchecked")
@@ -347,28 +363,28 @@ public class GameplayWindow extends javax.swing.JFrame {
 
         Panel_PowerUp.setBackground(new java.awt.Color(122, 133, 144));
 
-        Button_Power1.setText("jButton1");
+        Button_Power1.setText("Freeze");
         Button_Power1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Button_Power1ActionPerformed(evt);
             }
         });
 
-        Button_Power2.setText("jButton2");
+        Button_Power2.setText("Fire");
         Button_Power2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Button_Power2ActionPerformed(evt);
             }
         });
 
-        Button_Power3.setText("jButton3");
+        Button_Power3.setText("Block");
         Button_Power3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Button_Power3ActionPerformed(evt);
             }
         });
 
-        Button_Power4.setText("jButton4");
+        Button_Power4.setText("Add Life");
         Button_Power4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Button_Power4ActionPerformed(evt);
@@ -488,19 +504,19 @@ public class GameplayWindow extends javax.swing.JFrame {
 
     private void Button_Power1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power1ActionPerformed
         Button_Power1.setEnabled(false);
-        _controller.addLife();
         _powerUpTimer[0].start();
+        _spawner.randomDelayAll(2500, 5000);
+        _freezeTimer.start();
     }//GEN-LAST:event_Button_Power1ActionPerformed
 
     private void Button_Power2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power2ActionPerformed
         Button_Power2.setEnabled(false);
-        _controller.addLife();
+        _spawner.killAll();
         _powerUpTimer[1].start();
     }//GEN-LAST:event_Button_Power2ActionPerformed
 
     private void Button_Power3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power3ActionPerformed
         Button_Power3.setEnabled(false);
-        _controller.addLife();
         _powerUpTimer[2].start();
     }//GEN-LAST:event_Button_Power3ActionPerformed
 

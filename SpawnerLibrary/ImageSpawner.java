@@ -9,18 +9,23 @@ import javax.swing.Timer;
 
 public class ImageSpawner {
     private GridPanel _grid = null;
-    private int _frequecyDelay = 500;
+    private int _frequecyDelay = 0;
+    private int _defaultDelay = 0;
     Timer _frequencyTimer = null;
     
     // Constructors
     public ImageSpawner(){
         // Randomize the delay of the timer [500, 1500)
         _frequecyDelay = (new Random()).nextInt(500,1500);
+        _defaultDelay = _frequecyDelay;
     }
     
     // Relevant Methods
     public void attachGridPanel(GridPanel myGrid){
         _grid = myGrid;
+    }
+    public void resetDelay(){
+        _frequencyTimer.setDelay(_defaultDelay);
     }
     
     // Can change runtime
@@ -53,6 +58,10 @@ public class ImageSpawner {
         
         // Start the timer
         _frequencyTimer.start();
+    }
+   
+    public void kill(){
+        _grid.kill();
     }
     
     // Spawing

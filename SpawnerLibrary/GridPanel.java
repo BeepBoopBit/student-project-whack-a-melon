@@ -44,6 +44,8 @@ class GridPanel {
                 break;
             case 2:
                 _label.setIcon(new ImageIcon(_paths[2]));
+                break;
+            case 3:
                 _score.decreaseLife();
                 _gridState = -1;
                 break;
@@ -55,6 +57,10 @@ class GridPanel {
     public void setDefault(){
         _label.setIcon(new ImageIcon(_paths[0]));
         _gridState = 1;
+    }
+    public void kill(){
+        _label.setIcon(new ImageIcon(_paths[0]));
+        _gridState = -1;
     }
     
 }

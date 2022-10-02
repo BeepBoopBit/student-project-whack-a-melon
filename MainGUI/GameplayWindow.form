@@ -527,7 +527,7 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="Button_Power1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton1"/>
+                <Property name="text" type="java.lang.String" value="Freeze"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_Power1ActionPerformed"/>
@@ -535,7 +535,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="Button_Power2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton2"/>
+                <Property name="text" type="java.lang.String" value="Fire"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_Power2ActionPerformed"/>
@@ -543,7 +543,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="Button_Power3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton3"/>
+                <Property name="text" type="java.lang.String" value="Block"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_Power3ActionPerformed"/>
@@ -551,7 +551,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="Button_Power4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton4"/>
+                <Property name="text" type="java.lang.String" value="Add Life"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_Power4ActionPerformed"/>
