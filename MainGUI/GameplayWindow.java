@@ -514,32 +514,40 @@ public class GameplayWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_Button_BackMousePressed
 
     private void Button_Power4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power4ActionPerformed
-        Button_Power4.setEnabled(false);
-        _controller.addLife();
-        _powerUpTimer[3].start();
+        if(Integer.parseInt(Label_Score.getText()) >= 100){
+            Button_Power4.setEnabled(false);
+            _controller.addLife();
+            _powerUpTimer[3].start();
+        }
     }//GEN-LAST:event_Button_Power4ActionPerformed
 
     private void Button_Power1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power1ActionPerformed
-        Button_Power1.setEnabled(false);
-        _powerUpTimer[0].start();
-        _spawner.randomDelayAll(2500, 5000);
-        _freezeTimer.start();
+        if(Integer.parseInt(Label_Score.getText()) >= 20){
+            Button_Power1.setEnabled(false);
+            _powerUpTimer[0].start();
+            _spawner.randomDelayAll(2500, 5000);
+            _freezeTimer.start();
+        }
     }//GEN-LAST:event_Button_Power1ActionPerformed
 
     private void Button_Power2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power2ActionPerformed
-        Button_Power2.setEnabled(false);
-        _spawner.killAll();
-        _powerUpTimer[1].start();
+        if(Integer.parseInt(Label_Score.getText()) >= 75){
+            Button_Power2.setEnabled(false);
+            _spawner.killAll();
+            _powerUpTimer[1].start();
+        }
     }//GEN-LAST:event_Button_Power2ActionPerformed
 
     private void Button_Power3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power3ActionPerformed
-        Button_Power3.setEnabled(false);
-        _blockTimer.start();
-        Random rand = new Random();
-        _currentBlockIndex = rand.nextInt(0,9);
-        _spawner.stop(_currentBlockIndex);
-        _spawner.reset(_currentBlockIndex);
-        _powerUpTimer[2].start();
+        if(Integer.parseInt(Label_Score.getText()) >= 50){
+            Button_Power3.setEnabled(false);
+            _blockTimer.start();
+            Random rand = new Random();
+            _currentBlockIndex = rand.nextInt(0,9);
+            _spawner.stop(_currentBlockIndex);
+            _spawner.reset(_currentBlockIndex);
+            _powerUpTimer[2].start();
+        }
     }//GEN-LAST:event_Button_Power3ActionPerformed
 
     public static void main(String args[]) {
