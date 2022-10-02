@@ -110,6 +110,22 @@ public class ScoreController {
         _score=0;
     }
     
+    public void populateTable(){
+        // Get the data
+        ArrayList<String[]> fileData = getDataFromFile();
+        
+        // Get the model of the attached table
+        DefaultTableModel myModel = (DefaultTableModel) _scoreTable.getModel();
+        
+        // Remove all data
+        myModel.setRowCount(0);
+        
+        // Add all data to the model
+        for(int i = 0; i < fileData.size(); ++i){
+            myModel.addRow(fileData.get(i));
+        }
+    }
+    
     private ArrayList<String[]> getDataFromFile(){
         ArrayList<String[]> fileData = new ArrayList<>();
         try {

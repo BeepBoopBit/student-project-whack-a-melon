@@ -145,6 +145,9 @@
               <Border info="null"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_StartActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Button_Scoreboard">
           <Properties>
@@ -158,6 +161,9 @@
               <Border info="null"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_ScoreboardActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Button_Exit">
           <Properties>
@@ -171,6 +177,9 @@
               <Border info="null"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_ExitActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>

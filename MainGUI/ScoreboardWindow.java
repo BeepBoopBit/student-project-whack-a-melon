@@ -10,10 +10,16 @@ public class ScoreboardWindow extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void appear(){
+    // should be called rather than using setVisible manually
+    // or error would occur
+    public void appear(boolean toSave){
         this.setVisible(true);
         _controller.attachTable(Table_RankScore);
-        _controller.saveToLeaderboard();
+        if(toSave){
+            _controller.saveToLeaderboard();
+        }else{
+            _controller.populateTable();
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -56,6 +62,11 @@ public class ScoreboardWindow extends javax.swing.JFrame {
         Button_Back.setBackground(new java.awt.Color(3, 162, 134));
         Button_Back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MainGUI/MainMenu_BackButton.png"))); // NOI18N
         Button_Back.setBorder(null);
+        Button_Back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_BackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -104,6 +115,13 @@ public class ScoreboardWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void Button_BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_BackActionPerformed
+        this.setVisible(false);
+        MainMenu newMenu = new MainMenu();
+        newMenu.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_Button_BackActionPerformed
 
     /**
      * @param args the command line arguments
