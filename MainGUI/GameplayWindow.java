@@ -11,7 +11,9 @@ public class GameplayWindow extends javax.swing.JFrame {
         initComponents();
         setUpSpawner();
         _spawner.startAll();
-        _controller.attachLabel(Label_Score);
+        _controller.attachScoreLabel(Label_Score);
+        _controller.attachLifeLabel(Label_Life);
+        _controller.attachMainWindow(this);
     }
     
     private void setUpSpawner(){
@@ -26,14 +28,20 @@ public class GameplayWindow extends javax.swing.JFrame {
         _spawner.addPanel(Grid_8);
     }
     
+    public void exit(){
+        Button_BackMousePressed(null);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         MainPanel = new javax.swing.JPanel();
         Panel_TopLabels = new javax.swing.JPanel();
-        Label_ScoreImage = new javax.swing.JLabel();
+        Label_LifeImage = new javax.swing.JLabel();
+        Label_Life = new javax.swing.JLabel();
         Label_Score = new javax.swing.JLabel();
+        Label_ScoreImage1 = new javax.swing.JLabel();
         Button_Back = new javax.swing.JButton();
         Grid_0 = new javax.swing.JPanel();
         Label_Melon0 = new javax.swing.JLabel();
@@ -65,12 +73,19 @@ public class GameplayWindow extends javax.swing.JFrame {
 
         Panel_TopLabels.setBackground(new java.awt.Color(3, 162, 134));
 
-        Label_ScoreImage.setBackground(new java.awt.Color(3, 162, 134));
-        Label_ScoreImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MainGUI/Gameplay_Score1.png"))); // NOI18N
+        Label_LifeImage.setBackground(new java.awt.Color(3, 162, 134));
+        Label_LifeImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MainGUI/Gameplay_Score1.png"))); // NOI18N
+
+        Label_Life.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        Label_Life.setForeground(new java.awt.Color(255, 255, 255));
+        Label_Life.setText("20");
 
         Label_Score.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         Label_Score.setForeground(new java.awt.Color(255, 255, 255));
         Label_Score.setText("0");
+
+        Label_ScoreImage1.setBackground(new java.awt.Color(3, 162, 134));
+        Label_ScoreImage1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MainGUI/Gameplay_Score1.png"))); // NOI18N
 
         Button_Back.setBackground(new java.awt.Color(3, 162, 134));
         Button_Back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MainGUI/MainMenu_BackButton.png"))); // NOI18N
@@ -86,22 +101,36 @@ public class GameplayWindow extends javax.swing.JFrame {
         Panel_TopLabelsLayout.setHorizontalGroup(
             Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Panel_TopLabelsLayout.createSequentialGroup()
-                .addComponent(Label_ScoreImage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Label_Score)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Button_Back)
+                .addGroup(Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel_TopLabelsLayout.createSequentialGroup()
+                        .addComponent(Label_ScoreImage1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Label_Score)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 318, Short.MAX_VALUE)
+                        .addComponent(Button_Back))
+                    .addGroup(Panel_TopLabelsLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Label_LifeImage)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Label_Life)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         Panel_TopLabelsLayout.setVerticalGroup(
             Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel_TopLabelsLayout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
-                .addGroup(Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(Label_Score)
-                    .addComponent(Label_ScoreImage)
-                    .addComponent(Button_Back))
-                .addGap(17, 17, 17))
+            .addGroup(Panel_TopLabelsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Button_Back)
+                    .addGroup(Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(Label_Life)
+                        .addGroup(Panel_TopLabelsLayout.createSequentialGroup()
+                            .addGroup(Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Label_ScoreImage1)
+                                .addComponent(Label_Score))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(Label_LifeImage))))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         Grid_0.setBackground(new java.awt.Color(3, 162, 134));
@@ -262,7 +291,7 @@ public class GameplayWindow extends javax.swing.JFrame {
                 .addComponent(Button_Power3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Button_Power4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         Panel_PowerUpLayout.setVerticalGroup(
             Panel_PowerUpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,29 +310,30 @@ public class GameplayWindow extends javax.swing.JFrame {
         MainPanelLayout.setHorizontalGroup(
             MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MainPanelLayout.createSequentialGroup()
-                .addGap(88, 88, 88)
-                .addGroup(MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(MainPanelLayout.createSequentialGroup()
-                        .addComponent(Grid_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Grid_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Grid_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(Panel_PowerUp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(MainPanelLayout.createSequentialGroup()
-                        .addComponent(Grid_6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Grid_8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Grid_7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(MainPanelLayout.createSequentialGroup()
-                        .addComponent(Grid_0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Grid_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Grid_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(Panel_TopLabels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Panel_TopLabels, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(MainPanelLayout.createSequentialGroup()
+                            .addComponent(Grid_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(Grid_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(Grid_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(Panel_PowerUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(MainPanelLayout.createSequentialGroup()
+                            .addComponent(Grid_6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(Grid_8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(Grid_7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(MainPanelLayout.createSequentialGroup()
+                            .addComponent(Grid_0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(Grid_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(Grid_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         MainPanelLayout.setVerticalGroup(
             MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,6 +377,7 @@ public class GameplayWindow extends javax.swing.JFrame {
     private void Button_BackMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_BackMousePressed
         ScoreboardWindow _newWindow = new ScoreboardWindow();
         this.setVisible(false);
+        this.dispose();
         _newWindow.appear();
     }//GEN-LAST:event_Button_BackMousePressed
 
@@ -400,6 +431,8 @@ public class GameplayWindow extends javax.swing.JFrame {
     private javax.swing.JPanel Grid_6;
     private javax.swing.JPanel Grid_7;
     private javax.swing.JPanel Grid_8;
+    private javax.swing.JLabel Label_Life;
+    private javax.swing.JLabel Label_LifeImage;
     private javax.swing.JLabel Label_Melon0;
     private javax.swing.JLabel Label_Melon1;
     private javax.swing.JLabel Label_Melon2;
@@ -410,7 +443,7 @@ public class GameplayWindow extends javax.swing.JFrame {
     private javax.swing.JLabel Label_Melon7;
     private javax.swing.JLabel Label_Melon8;
     private javax.swing.JLabel Label_Score;
-    private javax.swing.JLabel Label_ScoreImage;
+    private javax.swing.JLabel Label_ScoreImage1;
     private javax.swing.JPanel MainPanel;
     private javax.swing.JPanel Panel_PowerUp;
     private javax.swing.JPanel Panel_TopLabels;

@@ -1,4 +1,5 @@
 package Scoreboard;
+import MainGUI.GameplayWindow;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -16,13 +17,13 @@ import javax.swing.table.DefaultTableModel;
 public class ScoreController {
     //variables
     private int _score = 0;
-    int _scoreMax[] = {9,89,898,8997};
-    int _currentMaxIndex = 0;
-    String preScoreText[] = {"000","00","0"};
-    JTable _scoreTable = null;
-    String _difficulty = "MEDIUM";
-    JLabel _label = null;
+    private int _life = 10;
+    private JTable _scoreTable = null;
+    private String _difficulty = "MEDIUM";
+    private JLabel _scoreLabel = null;
+    private JLabel _lifeLabel = null;
     private static ScoreController _instance = null;
+    private GameplayWindow _window = null;
     
     private ScoreController() {}
     public static ScoreController getInstance(){
@@ -32,40 +33,41 @@ public class ScoreController {
         return _instance;
     }
     
-    
     // Should be called once before saving to the leaderboard
     public void attachTable(JTable table){
         _scoreTable = table;
     }
     
     // Should be called once before adding a score
-    public void attachLabel(JLabel newLabel){
-        _label = newLabel;
+    public void attachScoreLabel(JLabel newLabel){
+        _scoreLabel = newLabel;
+    }
+    public void attachLifeLabel(JLabel newLabel){
+        _lifeLabel = newLabel;
+    }
+    public void attachMainWindow(GameplayWindow newWindow){
+        _window = newWindow;
     }
     
     public void addScore() {
-        // set the text to null
-        String scoreText = null;
-        
         // Add Score
         _score++;
         
-        // check if the current score is < the current max
-        if(_scoreMax[_currentMaxIndex] != 0){
-            // if it is, then decrement the max
-            _scoreMax[_currentMaxIndex] -= 1;
-        }else{
-            // else, go to the next max
-            _currentMaxIndex += 1;
-        }
-        
-        // set the score
-        scoreText = preScoreText[_currentMaxIndex] + Integer.toString(_score);
-        
-        // set the text of the labe in relates to the score
-        _label.setText(scoreText);
+        // set the text of the label in relates to the current score
+        _scoreLabel.setText(Integer.toString(_score));
     }
     
+    public void decreaseLife(){
+        // decrement the life
+        _life--;
+        
+        if(_life == 0){
+            _window.exit();
+        }
+        
+        // set the text of the label in relates to the current life
+        _lifeLabel.setText(Integer.toString(_life));
+    }
     
     public void scoreboardReset(javax.swing.JLabel label) {
         // Reset the Label
