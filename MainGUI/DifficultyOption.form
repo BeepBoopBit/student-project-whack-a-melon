@@ -137,6 +137,9 @@
               <Border info="null"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_EasyActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Button_Medium">
           <Properties>
@@ -147,6 +150,9 @@
               <Border info="null"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_MediumActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Button_Hard">
           <Properties>
@@ -160,6 +166,9 @@
               <Border info="null"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_HardActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Button_Back">
           <Properties>

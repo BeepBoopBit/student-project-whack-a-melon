@@ -33,28 +33,34 @@ public class ScoreController {
         return _instance;
     }
     
+    // Attachers
+    
     // Should be called once before saving to the leaderboard
     public void attachTable(JTable table){
         _scoreTable = table;
     }
-    
     // Should be called once before adding a score
     public void attachScoreLabel(JLabel newLabel){
         _scoreLabel = newLabel;
     }
+    // Should be called before playing the game
     public void attachLifeLabel(JLabel newLabel){
         _lifeLabel = newLabel;
         _lifeLabel.setText(Integer.toString(_life));
     }
+    // Should be called before playing the game
     public void attachMainWindow(GameplayWindow newWindow){
         _window = newWindow;
     }
     
+    // Add and Decrease
+    
+    // Add a life to the player (ADD LIFE Functionality)
     public void addLife(){
         _life += 1;
         _lifeLabel.setText(Integer.toString(_life));
     }
-    
+    // For adding a score in the label
     public void addScore() {
         // Add Score
         _score++;
@@ -62,7 +68,7 @@ public class ScoreController {
         // set the text of the label in relates to the current score
         _scoreLabel.setText(Integer.toString(_score));
     }
-    
+    // For Decreasing the life of the player
     public void decreaseLife(){
         // decrement the life
         _life--;
@@ -75,14 +81,24 @@ public class ScoreController {
         _lifeLabel.setText(Integer.toString(_life));
     }
     
+    // Setters
+    
+    // Set the difficulty to the game when saving (does not affect the gameplay)
+    public void setDifficulty(String difficulty){
+        _difficulty = difficulty;
+    }
+    // Reset the scoreboard to zero
     public void scoreboardReset(javax.swing.JLabel label) {
         // Reset the Label
-        label.setText("0000");
+        label.setText("0");
         
         // Reset the Score
         _score=0;
     }
     
+    // Saving-relevant methods
+    
+    // Get the name of the player, save it to the file, sort it, and show it to the player
     public void saveToLeaderboard(){
         // store the data inside of the file
         ArrayList<String[]> fileData = getDataFromFile();
@@ -114,7 +130,7 @@ public class ScoreController {
         // Reset the score
         _score=0;
     }
-    
+    // Get the data and Show it to the player
     public void populateTable(){
         // Get the data
         ArrayList<String[]> fileData = getDataFromFile();
@@ -130,7 +146,7 @@ public class ScoreController {
             myModel.addRow(fileData.get(i));
         }
     }
-    
+    // Get the data from the file
     private ArrayList<String[]> getDataFromFile(){
         ArrayList<String[]> fileData = new ArrayList<>();
         try {
@@ -157,7 +173,7 @@ public class ScoreController {
         }
         return fileData;
     }
-    
+    // Save the data to a file
     private void storeNewData(String[] playerData){
         // Get the path
         File path = new File("src/Scoreboard/localLeaderboard.txt");
@@ -187,6 +203,7 @@ public class ScoreController {
             Logger.getLogger(ScoreController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    // Ask for the user to input his/her name for the leaderboard
     private String askNameInput(){
         String userInput = "";
         int userInputLimit = 10;
@@ -225,7 +242,7 @@ public class ScoreController {
             }
         return userInput;
     }
-    
+    // Sort the array using bubble sort
     private void sorter(ArrayList<String[]> arrData) {
         // assume that all values are of the same size
         int arrDataBack = arrData.get(0).length-1;

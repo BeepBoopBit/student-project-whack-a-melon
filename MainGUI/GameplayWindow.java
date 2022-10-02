@@ -12,16 +12,38 @@ public class GameplayWindow extends javax.swing.JFrame {
     ImageSpawnerController _spawner = ImageSpawnerController.getInstance();
     ScoreController _controller = ScoreController.getInstance();
     int _currentBlockIndex = 0;
-
+    
+    // take note that the delay of each spawn is randomize by this range
+    // so Change the range to balance out the spawing of the watermelons
+    int _easy[] = {2000,3500};
+    int _medium[] = {1000,2500};
+    int _hard[] = {500,1500};
+    
+    // NOTE: Every Timer Variable has the same explanation as _powerUpTimer[0]
+    // Change the _elapseTime if you want to change how long the cooldown is:
+    // [0] -> Freeze Timer
+    // [1] -> Fire Timer
+    // [2] -> Block Timer
+    // [3] -> Add Life Timer
     Timer _powerUpTimer[] ={
         new Timer(1000,new ActionListener(){
+            // 1000 -> a second
             int _elapseTime = 1000*45;
             @Override
             public void actionPerformed(ActionEvent e){
+                // since the timer is repetedly called every 1000ms
+                // decrement the _elapseTime by 1000 until a specified
+                // amount, shall achieve the desired goal
                 _elapseTime -= 1000;
+                
+                // Convert the _elaseTime to minutes and seconds
                 String minutes = Integer.toString((_elapseTime/60000) % 60);
                 String seconds = Integer.toString((_elapseTime/1000) % 60);
+                
+                // set the corresponding power_button
                 Button_Power1.setText(minutes + ':' + seconds);
+                
+                // If the duration is done, stop the timer
                 if(_elapseTime == 0){
                     stopTimer(0);
                 }
@@ -68,6 +90,7 @@ public class GameplayWindow extends javax.swing.JFrame {
         })
     };
     
+    // Change _elapseTime to change the duration of the freezing power-up
     Timer _freezeTimer = new Timer(1000 ,new ActionListener(){
             int _elapseTime = 1000*10;
             @Override
@@ -78,6 +101,8 @@ public class GameplayWindow extends javax.swing.JFrame {
                 }
             }
     });    
+    
+    // Change the _elapseTime to change the duration of the block power-up
     Timer _blockTimer = new Timer(1000 ,new ActionListener(){
             int _elapseTime = 1000*10;
             @Override
@@ -101,8 +126,37 @@ public class GameplayWindow extends javax.swing.JFrame {
         // Start spawing all the images
         _spawner.startAll();
         
-        // Temporary
-        _spawner.delayAll(1000);
+        // Change the range to balance the spawning
+        _spawner.randomDelayAll(_medium[0],_medium[1]);
+    }
+
+    public GameplayWindow(int difficulty) {
+        initComponents();
+        
+        // add all the grids (panels) to the _spawner
+        setUpSpawner();
+        
+        // Attach Components to the controller
+        setUpController();
+
+        // Start spawing all the images
+        _spawner.startAll();
+        
+        // Change the range to balance the spawning
+        switch (difficulty) {
+            case 0:
+                _spawner.randomDelayAll(_easy[0],_easy[1]);
+                break;
+            case 1:
+                _spawner.randomDelayAll(_medium[0],_medium[1]);
+                break;
+            case 2:
+                _spawner.randomDelayAll(_hard[0],_hard[1]);
+                break;
+            default:
+                break;
+        }
+        
     }
     
     private void setUpSpawner(){
@@ -124,19 +178,21 @@ public class GameplayWindow extends javax.swing.JFrame {
         _controller.attachMainWindow(this);
     }
     
+    // Use by classes that doesn't have access to Scoreboard window
+    // and creating one might not be optimal
     public void exit(){
         Button_BackMousePressed(null);
     }
     
+    
+    // Auxillary Function for Power-ups
     public void stopTimer(int index){
         _powerUpTimer[index].stop();
     }
-    
     public void unFreeze(){
         _spawner.resetDelay();
         _freezeTimer.stop();
     }
-    
     public void unBlock(){
         _blockTimer.stop();
         _spawner.start(_currentBlockIndex);
@@ -507,6 +563,7 @@ public class GameplayWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Button_BackMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_BackMousePressed
+        // Create a new Scoreboard Window and dispose of the current window
         ScoreboardWindow _newWindow = new ScoreboardWindow();
         this.setVisible(false);
         this.dispose();
@@ -514,6 +571,8 @@ public class GameplayWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_Button_BackMousePressed
 
     private void Button_Power4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power4ActionPerformed
+        // Change the RIGHT value if you want to change how much should
+        // the player cost per each use of ADD LIFE power-up
         if(Integer.parseInt(Label_Score.getText()) >= 100){
             Button_Power4.setEnabled(false);
             _controller.addLife();
@@ -522,6 +581,8 @@ public class GameplayWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_Button_Power4ActionPerformed
 
     private void Button_Power1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power1ActionPerformed
+        // Change the RIGHT value if you want to change how much should
+        // the player cost per each use of FREEZE power-up
         if(Integer.parseInt(Label_Score.getText()) >= 20){
             Button_Power1.setEnabled(false);
             _powerUpTimer[0].start();
@@ -531,6 +592,8 @@ public class GameplayWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_Button_Power1ActionPerformed
 
     private void Button_Power2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power2ActionPerformed
+        // Change the RIGHT value if you want to change how much should
+        // the player cost per each use of KILL ALL power-up
         if(Integer.parseInt(Label_Score.getText()) >= 75){
             Button_Power2.setEnabled(false);
             _spawner.killAll();
@@ -539,6 +602,8 @@ public class GameplayWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_Button_Power2ActionPerformed
 
     private void Button_Power3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power3ActionPerformed
+        // Change the RIGHT value if you want to change how much should
+        // the player cost per each use of BLOCK power-up
         if(Integer.parseInt(Label_Score.getText()) >= 50){
             Button_Power3.setEnabled(false);
             _blockTimer.start();

@@ -21,24 +21,36 @@ public class ImageSpawner {
     }
     
     // Relevant Methods
+    
+    // attach the grid panel to the class
     public void attachGridPanel(GridPanel myGrid){
         _grid = myGrid;
     }
+    
+    // Reset the delay to its default speed
     public void resetDelay(){
         _frequencyTimer.setDelay(_defaultDelay);
     }
+    
+    // stop _frequencyTimer
     public void stop(){
         _frequencyTimer.stop();
     }
+    
+    /// Reset of kill a WATERMELON
     public void resetState(){
         _grid.setDefault();
     }
     
     // Can change runtime
+    
+    // Delay the spawing of WATERMELONS
     public void delay(int delay){
         int myDelay = _frequencyTimer.getDelay() + delay;
         _frequencyTimer.setDelay(myDelay);
     }
+    
+    // Accelerate the spawing of WATERMELONS
     public void accelerate(int accelerate){
         int myAccelerate = _frequencyTimer.getDelay() - accelerate;
         _frequencyTimer.setDelay(myAccelerate);
@@ -65,11 +77,9 @@ public class ImageSpawner {
         // Start the timer
         _frequencyTimer.start();
     }
-   
     public void kill(){
-        _grid.kill();
+        _grid.setDefault();
     }
-    
     // Spawing
     private void spawn(){
         _grid.changeState();

@@ -24,6 +24,8 @@ public class ImageSpawnerController {
     }
     
     // Relevant Functions
+    
+    // make a GridPanel out of a panel, attach it to a spawner and add it to the array
     public void addPanel(JPanel newPanel){
         // Create the new GridPanel using the newPanel
         GridPanel newGridPanel = new GridPanel(newPanel);
@@ -37,30 +39,39 @@ public class ImageSpawnerController {
         // Add it to the array
         _spawners.add(newSpawner);
     }
+    
+    // Reset the state of a GridPanel
     public void reset(int i){
         _spawners.get(i).resetState();
     }
+    
+    // Start a GridPanel Timer
     public void start(int i){
         _spawners.get(i).start();
     }
+    
+    // Start all the Timer of all the GridPanel
     public void startAll(){
         for(int i = 0; i < _spawners.size(); ++i){
             _spawners.get(i).start();
         }
     }
     
+    // Kill all the Timer of all the GridPanel
     public void killAll(){
         for(int i = 0; i < _spawners.size(); ++i){
             _spawners.get(i).kill();
         }
     }
     
+    // Reset the delay to default of all GridPanel
     public void resetDelay(){
         for(int i = 0; i < _spawners.size(); ++i){
             _spawners.get(i).resetDelay();
         }
     }
     
+    // Stop a GridPanel's Timer
     public void stop(int i){
         _spawners.get(i).stop();
     }

@@ -153,13 +153,15 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Button_StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StartActionPerformed
+        // Proceed to the difficulty window while also disposing the current window
         this.setVisible(false);
-        GameplayWindow gameWindow = new GameplayWindow();
-        gameWindow.setVisible(true);
+        DifficultyOption difficultyWindow = new DifficultyOption();
+        difficultyWindow.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_Button_StartActionPerformed
 
     private void Button_ScoreboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ScoreboardActionPerformed
+        // Proceed to the leaderboard window while also disposing the current window
         this.setVisible(false);
         ScoreboardWindow leaderboard = new ScoreboardWindow();
         leaderboard.appear(false);
@@ -167,6 +169,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_Button_ScoreboardActionPerformed
 
     private void Button_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ExitActionPerformed
+        // Proceed to exit and dispose of the current window
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_Button_ExitActionPerformed
