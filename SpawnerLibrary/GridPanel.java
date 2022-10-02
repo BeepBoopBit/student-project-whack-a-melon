@@ -1,5 +1,6 @@
 
 package SpawnerLibrary;
+import Scoreboard.ScoreController;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
@@ -14,7 +15,7 @@ class GridPanel {
                                         "src/MainGUI/Gameplay_Leaf.png",
                                         "src/MainGUI/Gameplay_Watermelon.png"
                                         };
-    
+    ScoreController     _score      = ScoreController.getInstance();
     GridPanel(JPanel panel){
         _panel = panel;
         _label = (JLabel) _panel.getComponent(0);
@@ -24,7 +25,7 @@ class GridPanel {
                     public void mousePressed(MouseEvent e){
                         if(_label.getIcon().toString() == _paths[2]){
                             setDefault();
-                            // call add score
+                            _score.addScore();
                         }
                     }
                 }

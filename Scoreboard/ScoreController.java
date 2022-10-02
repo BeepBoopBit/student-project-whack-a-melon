@@ -22,18 +22,28 @@ public class ScoreController {
     JTable _scoreTable = null;
     String _difficulty = "MEDIUM";
     JLabel _label = null;
+    private static ScoreController _instance = null;
+    
+    private ScoreController() {}
+    public static ScoreController getInstance(){
+        if(_instance == null){
+            _instance = new ScoreController();
+        }
+        return _instance;
+    }
+    
     
     // Should be called once before saving to the leaderboard
-    void attachTable(JTable table){
+    public void attachTable(JTable table){
         _scoreTable = table;
     }
     
     // Should be called once before adding a score
-    void attachLabel(JLabel newLabel){
+    public void attachLabel(JLabel newLabel){
         _label = newLabel;
     }
     
-    void addScore() {
+    public void addScore() {
         // set the text to null
         String scoreText = null;
         
@@ -57,7 +67,7 @@ public class ScoreController {
     }
     
     
-    void scoreboardReset(javax.swing.JLabel label) {
+    public void scoreboardReset(javax.swing.JLabel label) {
         // Reset the Label
         label.setText("0000");
         
@@ -65,20 +75,7 @@ public class ScoreController {
         _score=0;
     }
     
-    void exitGame(javax.swing.JFrame frame) {
-        
-        // Save the information to the leaderboard
-        saveToLeaderboard();
-        
-        // Reset the score
-        _score=0;
-        
-        //does not stop the program!!!
-        frame.setVisible(false); 
-    }
-    
-    
-    private void saveToLeaderboard(){
+    public void saveToLeaderboard(){
         // store the data inside of the file
         ArrayList<String[]> fileData = getDataFromFile();
         
@@ -87,6 +84,7 @@ public class ScoreController {
         
         // summarize the data for the player
         String saveData[] = {playerName, _difficulty, java.time.LocalDate.now().toString(), Integer.toString(_score)};
+        fileData.add(saveData);
         
         // Store the data
         storeNewData(saveData);
@@ -104,6 +102,9 @@ public class ScoreController {
         for(int i = 0; i < fileData.size(); ++i){
             myModel.addRow(fileData.get(i));
         }
+
+        // Reset the score
+        _score=0;
     }
     
     private ArrayList<String[]> getDataFromFile(){

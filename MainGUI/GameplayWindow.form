@@ -173,6 +173,9 @@
                   <Border info="null"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="Button_BackMousePressed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

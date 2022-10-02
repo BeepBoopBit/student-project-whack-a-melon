@@ -1,14 +1,17 @@
 package MainGUI;
 
+import Scoreboard.ScoreController;
 import SpawnerLibrary.ImageSpawnerController;
 
 public class GameplayWindow extends javax.swing.JFrame {
 
     ImageSpawnerController _spawner = ImageSpawnerController.getInstance();
+    ScoreController _controller = ScoreController.getInstance();
     public GameplayWindow() {
         initComponents();
         setUpSpawner();
         _spawner.startAll();
+        _controller.attachLabel(Label_Score);
     }
     
     private void setUpSpawner(){
@@ -72,6 +75,11 @@ public class GameplayWindow extends javax.swing.JFrame {
         Button_Back.setBackground(new java.awt.Color(3, 162, 134));
         Button_Back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MainGUI/MainMenu_BackButton.png"))); // NOI18N
         Button_Back.setBorder(null);
+        Button_Back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Button_BackMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout Panel_TopLabelsLayout = new javax.swing.GroupLayout(Panel_TopLabels);
         Panel_TopLabels.setLayout(Panel_TopLabelsLayout);
@@ -335,6 +343,12 @@ public class GameplayWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void Button_BackMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_BackMousePressed
+        ScoreboardWindow _newWindow = new ScoreboardWindow();
+        this.setVisible(false);
+        _newWindow.appear();
+    }//GEN-LAST:event_Button_BackMousePressed
 
     /**
      * @param args the command line arguments
