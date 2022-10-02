@@ -9,11 +9,15 @@ public class GameplayWindow extends javax.swing.JFrame {
     ScoreController _controller = ScoreController.getInstance();
     public GameplayWindow() {
         initComponents();
+        
+        // add all the grids (panels) to the _spawner
         setUpSpawner();
+        
+        // Attach Components to the controller
+        setUpController();
+        
+        // Start spawing all the images
         _spawner.startAll();
-        _controller.attachScoreLabel(Label_Score);
-        _controller.attachLifeLabel(Label_Life);
-        _controller.attachMainWindow(this);
     }
     
     private void setUpSpawner(){
@@ -26,6 +30,12 @@ public class GameplayWindow extends javax.swing.JFrame {
         _spawner.addPanel(Grid_6);
         _spawner.addPanel(Grid_7);
         _spawner.addPanel(Grid_8);
+    }
+    
+    private void setUpController(){
+        _controller.attachScoreLabel(Label_Score);
+        _controller.attachLifeLabel(Label_Life);
+        _controller.attachMainWindow(this);
     }
     
     public void exit(){

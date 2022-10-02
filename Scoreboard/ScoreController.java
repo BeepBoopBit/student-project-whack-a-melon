@@ -44,6 +44,7 @@ public class ScoreController {
     }
     public void attachLifeLabel(JLabel newLabel){
         _lifeLabel = newLabel;
+        _lifeLabel.setText(Integer.toString(_life));
     }
     public void attachMainWindow(GameplayWindow newWindow){
         _window = newWindow;
