@@ -17,11 +17,10 @@ import javax.swing.table.DefaultTableModel;
 public class ScoreController {
     //variables
     private int _score = 0;
-    private int _life = 10;
+    private int _modifier = 1;
     private JTable _scoreTable = null;
     private String _difficulty = "MEDIUM";
     private JLabel _scoreLabel = null;
-    private JLabel _lifeLabel = null;
     private static ScoreController _instance = null;
     private GameplayWindow _window = null;
     
@@ -44,46 +43,35 @@ public class ScoreController {
         _scoreLabel = newLabel;
     }
     // Should be called before playing the game
-    public void attachLifeLabel(JLabel newLabel){
-        _lifeLabel = newLabel;
-        _lifeLabel.setText(Integer.toString(_life));
-    }
-    // Should be called before playing the game
     public void attachMainWindow(GameplayWindow newWindow){
         _window = newWindow;
     }
     
+    // set the modifer to 2
+    public void x2(){
+        _modifier = 2;
+    }
+    
+    // Reset the modifier to 1
+    public void resetModifier(){
+        _modifier = 1;
+    }
+    
     // Add and Decrease
     
-    // Add a life to the player (ADD LIFE Functionality)
-    public void addLife(){
-        _life += 1;
-        _lifeLabel.setText(Integer.toString(_life));
-    }
     // For adding a score in the label
     public void addScore() {
         // Add Score
-        _score++;
+        _score += _modifier;
         
         // set the text of the label in relates to the current score
         _scoreLabel.setText(Integer.toString(_score));
-    }
-    // For Decreasing the life of the player
-    public void decreaseLife(){
-        // decrement the life
-        _life--;
-        
-        if(_life == 0){
-            _window.exit();
-        }
-        
-        // set the text of the label in relates to the current life
-        _lifeLabel.setText(Integer.toString(_life));
     }
     
     // Decrease the score of the player
     public void decreaseScore(int decrease){
         _score -= decrease;
+        _scoreLabel.setText(Integer.toString(_score));
     }
     
     // Setters
