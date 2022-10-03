@@ -19,10 +19,10 @@ public class ScoreController {
     private int _score = 0;
     private int _life = 10;
     private JTable _scoreTable = null;
-    private String _difficulty = "MEDIUM";
+    private String _difficulty = "";
     private JLabel _scoreLabel = null;
     private JLabel _lifeLabel = null;
-    private static ScoreController _instance = null;
+    private static ScoreController _instance = null;//singleton
     private GameplayWindow _window = null;
     
     private ScoreController() {}

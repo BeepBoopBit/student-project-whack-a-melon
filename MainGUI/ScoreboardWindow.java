@@ -8,6 +8,7 @@ public class ScoreboardWindow extends javax.swing.JFrame {
     ScoreController _controller = ScoreController.getInstance();
     public ScoreboardWindow() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     // should be called rather than using setVisible manually

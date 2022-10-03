@@ -116,7 +116,7 @@ public class GameplayWindow extends javax.swing.JFrame {
     
     public GameplayWindow() {
         initComponents();
-        
+        this.setLocationRelativeTo(null);
         // add all the grids (panels) to the _spawner
         setUpSpawner();
         

@@ -7,6 +7,7 @@ public class DifficultyOption extends javax.swing.JFrame {
     ScoreController _controller = ScoreController.getInstance();
     public DifficultyOption() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
     
     private void proceedToGameplay(int difficulty){
@@ -169,8 +170,9 @@ public class DifficultyOption extends javax.swing.JFrame {
 
     private void Button_BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_BackActionPerformed
         MainMenu newMenu = new MainMenu();
-        newMenu.setVisible(true);
         this.setVisible(false);
+        newMenu.setVisible(true);
+        newMenu.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_Button_BackActionPerformed
 
