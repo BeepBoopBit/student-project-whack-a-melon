@@ -1,5 +1,4 @@
 package Scoreboard;
-import MainGUI.GameplayWindow;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -21,7 +20,7 @@ public class ScoreController {
     private String _difficulty = "";
     private JLabel _scoreLabel = null;
     private static ScoreController _instance = null;//singleton
-    private GameplayWindow _window = null;
+    private int _multiplier = 1;
     
     private ScoreController() {}
     public static ScoreController getInstance(){
@@ -41,17 +40,13 @@ public class ScoreController {
     public void attachScoreLabel(JLabel newLabel){
         _scoreLabel = newLabel;
     }
-    // Should be called before playing the game
-    public void attachMainWindow(GameplayWindow newWindow){
-        _window = newWindow;
-    }
     
     // Add and Decrease
     
     // For adding a score in the label
     public void addScore() {
         // Add Score
-        _score++;
+        _score += _multiplier;
         
         // set the text of the label in relates to the current score
         _scoreLabel.setText(Integer.toString(_score));
@@ -63,6 +58,15 @@ public class ScoreController {
     }
     
     // Setters
+    
+    // set the multiplier to the specified amount
+    public void setMultiplier(int amount){
+        _multiplier = amount;
+    }
+    // reset multiplier
+    public void resetMultiplier(){
+        _multiplier = 1;
+    }
     
     // Set the difficulty to the game when saving (does not affect the gameplay)
     public void setDifficulty(String difficulty){

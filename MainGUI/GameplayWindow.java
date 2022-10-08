@@ -27,7 +27,7 @@ public class GameplayWindow extends javax.swing.JFrame {
     Timer _powerUpTimer[] ={
         new Timer(1000,new ActionListener(){
             // 1000 -> a second
-            int _elapseTime = 1000*45;
+            int _elapseTime = 1000*10;
             @Override
             public void actionPerformed(ActionEvent e){
                 // since the timer is repetedly called every 1000ms
@@ -45,6 +45,34 @@ public class GameplayWindow extends javax.swing.JFrame {
                 // If the duration is done, stop the timer
                 if(_elapseTime == 0){
                     stopTimer(0);
+                    resetMultiplier();
+                    Button_X2.setEnabled(true);
+                    Button_X2.setText("x2");
+                }
+            }
+        }),
+        new Timer(1000,new ActionListener(){
+            // 1000 -> a second
+            int _elapseTime = 1000*10;
+            @Override
+            public void actionPerformed(ActionEvent e){
+                // since the timer is repetedly called every 1000ms
+                // decrement the _elapseTime by 1000 until a specified
+                // amount, shall achieve the desired goal
+                _elapseTime -= 1000;
+                
+                // Convert the _elaseTime to minutes and seconds
+                String minutes = Integer.toString((_elapseTime/60000) % 60);
+                String seconds = Integer.toString((_elapseTime/1000) % 60);
+                
+                // set the corresponding power_button
+                Button_AddTime.setText(minutes + ':' + seconds);
+                
+                // If the duration is done, stop the timer
+                if(_elapseTime == 0){
+                    stopTimer(1);
+                    Button_AddTime.setEnabled(true);
+                    Button_AddTime.setText("Add Time");
                 }
             }
         })
@@ -73,6 +101,13 @@ public class GameplayWindow extends javax.swing.JFrame {
                 }
             }
     });
+    
+    private void resetMultiplier(){
+        _controller.resetMultiplier();
+    }
+    private void addTime(){
+        _gameTimerTime += 1000*30;
+    }
     
     public GameplayWindow() {
         initComponents();
@@ -136,7 +171,6 @@ public class GameplayWindow extends javax.swing.JFrame {
     
     private void setUpController(){
         _controller.attachScoreLabel(Label_Score);
-        _controller.attachMainWindow(this);
     }
     
     public void setUpTimer(int time){
@@ -499,10 +533,11 @@ public class GameplayWindow extends javax.swing.JFrame {
     private void Button_AddTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_AddTimeActionPerformed
         // Change the RIGHT value if you want to change how much should
         // the player cost per each use of ADD LIFE power-up
-        if(Integer.parseInt(Label_Score.getText()) >= 30){
+        if(Integer.parseInt(Label_Score.getText()) >= 10){
             Button_AddTime.setEnabled(false);
-            _powerUpTimer[3].start();
-            _controller.decreaseScore(30);
+            _powerUpTimer[1].start();
+            _controller.decreaseScore(10);
+            addTime();
         }
     }//GEN-LAST:event_Button_AddTimeActionPerformed
 
@@ -513,6 +548,7 @@ public class GameplayWindow extends javax.swing.JFrame {
             Button_X2.setEnabled(false);
             _powerUpTimer[0].start();
             _controller.decreaseScore(15);
+            _controller.setMultiplier(2);
         }
     }//GEN-LAST:event_Button_X2ActionPerformed
 
