@@ -8,6 +8,7 @@ public class ScoreboardWindow extends javax.swing.JFrame {
     ScoreController _controller = ScoreController.getInstance();
     public ScoreboardWindow() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     // should be called rather than using setVisible manually
@@ -41,6 +42,7 @@ public class ScoreboardWindow extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MainGUI/MainMenu_BG6.png"))); // NOI18N
 
+        Table_RankScore.setBackground(new java.awt.Color(204, 255, 204));
         Table_RankScore.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

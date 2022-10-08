@@ -7,6 +7,7 @@ public class DifficultyOption extends javax.swing.JFrame {
     ScoreController _controller = ScoreController.getInstance();
     public DifficultyOption() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
     
     private void proceedToGameplay(int difficulty){
@@ -70,6 +71,11 @@ public class DifficultyOption extends javax.swing.JFrame {
         Button_Back.setBackground(new java.awt.Color(3, 162, 134));
         Button_Back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MainGUI/MainMenu_BackButton.png"))); // NOI18N
         Button_Back.setBorder(null);
+        Button_Back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_BackActionPerformed(evt);
+            }
+        });
 
         jLabel3.setBackground(new java.awt.Color(3, 162, 134));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MainGUI/MainMenu_BG9.png"))); // NOI18N
@@ -161,6 +167,14 @@ public class DifficultyOption extends javax.swing.JFrame {
         _controller.setDifficulty("Hard");
         proceedToGameplay(2);
     }//GEN-LAST:event_Button_HardActionPerformed
+
+    private void Button_BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_BackActionPerformed
+        MainMenu newMenu = new MainMenu();
+        this.setVisible(false);
+        newMenu.setVisible(true);
+        newMenu.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_Button_BackActionPerformed
 
     /**
      * @param args the command line arguments

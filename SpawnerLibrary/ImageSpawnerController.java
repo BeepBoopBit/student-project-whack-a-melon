@@ -57,6 +57,13 @@ public class ImageSpawnerController {
         }
     }
     
+    // Kill all the Timer of all the GridPanel
+    public void killAll(){
+        for(int i = 0; i < _spawners.size(); ++i){
+            _spawners.get(i).kill();
+        }
+    }
+    
     // Reset the delay to default of all GridPanel
     public void resetDelay(){
         for(int i = 0; i < _spawners.size(); ++i){

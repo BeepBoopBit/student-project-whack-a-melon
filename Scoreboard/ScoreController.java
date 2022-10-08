@@ -17,11 +17,10 @@ import javax.swing.table.DefaultTableModel;
 public class ScoreController {
     //variables
     private int _score = 0;
-    private int _modifier = 1;
     private JTable _scoreTable = null;
-    private String _difficulty = "MEDIUM";
+    private String _difficulty = "";
     private JLabel _scoreLabel = null;
-    private static ScoreController _instance = null;
+    private static ScoreController _instance = null;//singleton
     private GameplayWindow _window = null;
     
     private ScoreController() {}
@@ -47,22 +46,12 @@ public class ScoreController {
         _window = newWindow;
     }
     
-    // set the modifer to 2
-    public void x2(){
-        _modifier = 2;
-    }
-    
-    // Reset the modifier to 1
-    public void resetModifier(){
-        _modifier = 1;
-    }
-    
     // Add and Decrease
     
     // For adding a score in the label
     public void addScore() {
         // Add Score
-        _score += _modifier;
+        _score++;
         
         // set the text of the label in relates to the current score
         _scoreLabel.setText(Integer.toString(_score));
@@ -71,7 +60,6 @@ public class ScoreController {
     // Decrease the score of the player
     public void decreaseScore(int decrease){
         _score -= decrease;
-        _scoreLabel.setText(Integer.toString(_score));
     }
     
     // Setters
