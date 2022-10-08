@@ -1,5 +1,4 @@
 package Scoreboard;
-import MainGUI.GameplayWindow;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -17,13 +16,11 @@ import javax.swing.table.DefaultTableModel;
 public class ScoreController {
     //variables
     private int _score = 0;
-    private int _life = 10;
     private JTable _scoreTable = null;
     private String _difficulty = "";
     private JLabel _scoreLabel = null;
-    private JLabel _lifeLabel = null;
     private static ScoreController _instance = null;//singleton
-    private GameplayWindow _window = null;
+    private int _multiplier = 1;
     
     private ScoreController() {}
     public static ScoreController getInstance(){
@@ -43,42 +40,16 @@ public class ScoreController {
     public void attachScoreLabel(JLabel newLabel){
         _scoreLabel = newLabel;
     }
-    // Should be called before playing the game
-    public void attachLifeLabel(JLabel newLabel){
-        _lifeLabel = newLabel;
-        _lifeLabel.setText(Integer.toString(_life));
-    }
-    // Should be called before playing the game
-    public void attachMainWindow(GameplayWindow newWindow){
-        _window = newWindow;
-    }
     
     // Add and Decrease
     
-    // Add a life to the player (ADD LIFE Functionality)
-    public void addLife(){
-        _life += 1;
-        _lifeLabel.setText(Integer.toString(_life));
-    }
     // For adding a score in the label
     public void addScore() {
         // Add Score
-        _score++;
+        _score += _multiplier;
         
         // set the text of the label in relates to the current score
         _scoreLabel.setText(Integer.toString(_score));
-    }
-    // For Decreasing the life of the player
-    public void decreaseLife(){
-        // decrement the life
-        _life--;
-        
-        if(_life == 0){
-            _window.exit();
-        }
-        
-        // set the text of the label in relates to the current life
-        _lifeLabel.setText(Integer.toString(_life));
     }
     
     // Decrease the score of the player
@@ -87,6 +58,15 @@ public class ScoreController {
     }
     
     // Setters
+    
+    // set the multiplier to the specified amount
+    public void setMultiplier(int amount){
+        _multiplier = amount;
+    }
+    // reset multiplier
+    public void resetMultiplier(){
+        _multiplier = 1;
+    }
     
     // Set the difficulty to the game when saving (does not affect the gameplay)
     public void setDifficulty(String difficulty){

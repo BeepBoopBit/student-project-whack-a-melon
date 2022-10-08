@@ -4,7 +4,6 @@ import Scoreboard.ScoreController;
 import SpawnerLibrary.ImageSpawnerController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 import javax.swing.Timer;
 
 public class GameplayWindow extends javax.swing.JFrame {
@@ -28,7 +27,7 @@ public class GameplayWindow extends javax.swing.JFrame {
     Timer _powerUpTimer[] ={
         new Timer(1000,new ActionListener(){
             // 1000 -> a second
-            int _elapseTime = 1000*45;
+            int _elapseTime = 1000*10;
             @Override
             public void actionPerformed(ActionEvent e){
                 // since the timer is repetedly called every 1000ms
@@ -41,78 +40,74 @@ public class GameplayWindow extends javax.swing.JFrame {
                 String seconds = Integer.toString((_elapseTime/1000) % 60);
                 
                 // set the corresponding power_button
-                Button_Power1.setText(minutes + ':' + seconds);
+                Button_X2.setText(minutes + ':' + seconds);
                 
                 // If the duration is done, stop the timer
                 if(_elapseTime == 0){
                     stopTimer(0);
+                    resetMultiplier();
+                    Button_X2.setEnabled(true);
+                    Button_X2.setText("x2");
                 }
             }
         }),
         new Timer(1000,new ActionListener(){
-            int _elapseTime = 1000*25;
+            // 1000 -> a second
+            int _elapseTime = 1000*10;
             @Override
             public void actionPerformed(ActionEvent e){
+                // since the timer is repetedly called every 1000ms
+                // decrement the _elapseTime by 1000 until a specified
+                // amount, shall achieve the desired goal
                 _elapseTime -= 1000;
+                
+                // Convert the _elaseTime to minutes and seconds
                 String minutes = Integer.toString((_elapseTime/60000) % 60);
                 String seconds = Integer.toString((_elapseTime/1000) % 60);
-                Button_Power2.setText(minutes + ':' + seconds);
+                
+                // set the corresponding power_button
+                Button_AddTime.setText(minutes + ':' + seconds);
+                
+                // If the duration is done, stop the timer
                 if(_elapseTime == 0){
-                    stopTimer(0);
-                }
-            }
-        }),
-        new Timer(1000,new ActionListener(){
-            int _elapseTime = 1000*60;
-            @Override
-            public void actionPerformed(ActionEvent e){
-                _elapseTime -= 1000;
-                String minutes = Integer.toString((_elapseTime/60000) % 60);
-                String seconds = Integer.toString((_elapseTime/1000) % 60);
-                Button_Power3.setText(minutes + ':' + seconds);
-                if(_elapseTime == 0){
-                    stopTimer(0);
-                }
-            }
-        }),
-        new Timer(1000,new ActionListener(){
-            int _elapseTime = 1000*60*2;
-            @Override
-            public void actionPerformed(ActionEvent e){
-                _elapseTime -= 1000;
-                String minutes = Integer.toString((_elapseTime/60000) % 60);
-                String seconds = Integer.toString((_elapseTime/1000) % 60);
-                Button_Power4.setText(minutes + ':' + seconds);
-                if(_elapseTime == 0){
-                    stopTimer(0);
+                    stopTimer(1);
+                    Button_AddTime.setEnabled(true);
+                    Button_AddTime.setText("Add Time");
                 }
             }
         })
     };
     
-    // Change _elapseTime to change the duration of the freezing power-up
-    Timer _freezeTimer = new Timer(1000 ,new ActionListener(){
-            int _elapseTime = 1000*10;
-            @Override
-            public void actionPerformed(ActionEvent e){
-                _elapseTime -= 1000;
-                if(_elapseTime == 0){
-                    unFreeze();
-                }
-            }
-    });    
     
-    // Change the _elapseTime to change the duration of the block power-up
-    Timer _blockTimer = new Timer(1000 ,new ActionListener(){
-            int _elapseTime = 1000*10;
-            @Override
-            public void actionPerformed(ActionEvent e){
-                _elapseTime -= 1000;
-                if(_elapseTime == 0){
-                    unBlock();
+    int _gameTimerTime = 1000*45;
+    Timer _gameTimer = new Timer(1000, new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e){
+                // since the timer is repetedly called every 1000ms
+                // decrement the _elapseTime by 1000 until a specified
+                // amount, shall achieve the desired goal
+                _gameTimerTime -= 1000;
+                
+                // Convert the _elaseTime to minutes and seconds
+                String minutes = Integer.toString((_gameTimerTime/60000) % 60);
+                String seconds = Integer.toString((_gameTimerTime/1000) % 60);
+                
+                // set the corresponding power_button
+                Label_Timer.setText(minutes + ':' + seconds);
+                
+                // If the duration is done, stop the timer
+                if(_gameTimerTime == 0){
+                    exit();
                 }
             }
     });
+    
+    private void resetMultiplier(){
+        _controller.resetMultiplier();
+    }
+    private void addTime(){
+        _gameTimerTime += 1000*30;
+    }
     
     public GameplayWindow() {
         initComponents();
@@ -128,6 +123,7 @@ public class GameplayWindow extends javax.swing.JFrame {
         
         // Change the range to balance the spawning
         _spawner.randomDelayAll(_medium[0],_medium[1]);
+        setUpTimer(1000*30);
     }
 
     public GameplayWindow(int difficulty) {
@@ -146,19 +142,20 @@ public class GameplayWindow extends javax.swing.JFrame {
         switch (difficulty) {
             case 0:
                 _spawner.randomDelayAll(_easy[0],_easy[1]);
+                setUpTimer(1000*45);
                 break;
             case 1:
                 _spawner.randomDelayAll(_medium[0],_medium[1]);
+                setUpTimer(1000*30);
                 break;
             case 2:
                 _spawner.randomDelayAll(_hard[0],_hard[1]);
+                setUpTimer(1000*25);
                 break;
             default:
                 break;
         }
-        
     }
-    
     private void setUpSpawner(){
         _spawner.addPanel(Grid_0);
         _spawner.addPanel(Grid_1);
@@ -174,8 +171,11 @@ public class GameplayWindow extends javax.swing.JFrame {
     
     private void setUpController(){
         _controller.attachScoreLabel(Label_Score);
-        _controller.attachLifeLabel(Label_Life);
-        _controller.attachMainWindow(this);
+    }
+    
+    public void setUpTimer(int time){
+        _gameTimerTime = time;
+        _gameTimer.start();
     }
     
     // Use by classes that doesn't have access to Scoreboard window
@@ -189,14 +189,6 @@ public class GameplayWindow extends javax.swing.JFrame {
     public void stopTimer(int index){
         _powerUpTimer[index].stop();
     }
-    public void unFreeze(){
-        _spawner.resetDelay();
-        _freezeTimer.stop();
-    }
-    public void unBlock(){
-        _blockTimer.stop();
-        _spawner.start(_currentBlockIndex);
-    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -204,8 +196,7 @@ public class GameplayWindow extends javax.swing.JFrame {
 
         MainPanel = new javax.swing.JPanel();
         Panel_TopLabels = new javax.swing.JPanel();
-        Label_LifeImage = new javax.swing.JLabel();
-        Label_Life = new javax.swing.JLabel();
+        Label_Timer = new javax.swing.JLabel();
         Label_Score = new javax.swing.JLabel();
         Label_ScoreImage1 = new javax.swing.JLabel();
         Button_Back = new javax.swing.JButton();
@@ -228,10 +219,8 @@ public class GameplayWindow extends javax.swing.JFrame {
         Grid_8 = new javax.swing.JPanel();
         Label_Melon8 = new javax.swing.JLabel();
         Panel_PowerUp = new javax.swing.JPanel();
-        Button_Power1 = new javax.swing.JButton();
-        Button_Power2 = new javax.swing.JButton();
-        Button_Power3 = new javax.swing.JButton();
-        Button_Power4 = new javax.swing.JButton();
+        Button_X2 = new javax.swing.JButton();
+        Button_AddTime = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -239,12 +228,9 @@ public class GameplayWindow extends javax.swing.JFrame {
 
         Panel_TopLabels.setBackground(new java.awt.Color(3, 162, 134));
 
-        Label_LifeImage.setBackground(new java.awt.Color(3, 162, 134));
-        Label_LifeImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MainGUI/Gameplay_Score1.png"))); // NOI18N
-
-        Label_Life.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        Label_Life.setForeground(new java.awt.Color(255, 255, 255));
-        Label_Life.setText("20");
+        Label_Timer.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        Label_Timer.setForeground(new java.awt.Color(255, 255, 255));
+        Label_Timer.setText("00:00");
 
         Label_Score.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         Label_Score.setForeground(new java.awt.Color(255, 255, 255));
@@ -267,19 +253,14 @@ public class GameplayWindow extends javax.swing.JFrame {
         Panel_TopLabelsLayout.setHorizontalGroup(
             Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Panel_TopLabelsLayout.createSequentialGroup()
-                .addGroup(Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel_TopLabelsLayout.createSequentialGroup()
-                        .addComponent(Label_ScoreImage1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Label_Score)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 318, Short.MAX_VALUE)
-                        .addComponent(Button_Back))
-                    .addGroup(Panel_TopLabelsLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(Label_LifeImage)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Label_Life)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(14, 14, 14)
+                .addComponent(Label_ScoreImage1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Label_Score)
+                .addGap(61, 61, 61)
+                .addComponent(Label_Timer)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                .addComponent(Button_Back)
                 .addContainerGap())
         );
         Panel_TopLabelsLayout.setVerticalGroup(
@@ -287,16 +268,12 @@ public class GameplayWindow extends javax.swing.JFrame {
             .addGroup(Panel_TopLabelsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Button_Back)
-                    .addGroup(Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(Label_Life)
-                        .addGroup(Panel_TopLabelsLayout.createSequentialGroup()
-                            .addGroup(Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Label_ScoreImage1)
-                                .addComponent(Label_Score))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(Label_LifeImage))))
-                .addContainerGap(56, Short.MAX_VALUE))
+                    .addComponent(Label_ScoreImage1)
+                    .addGroup(Panel_TopLabelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Label_Score)
+                        .addComponent(Label_Timer))
+                    .addComponent(Button_Back))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
 
         Grid_0.setBackground(new java.awt.Color(3, 162, 134));
@@ -436,31 +413,17 @@ public class GameplayWindow extends javax.swing.JFrame {
 
         Panel_PowerUp.setBackground(new java.awt.Color(122, 133, 144));
 
-        Button_Power1.setText("Freeze");
-        Button_Power1.addActionListener(new java.awt.event.ActionListener() {
+        Button_X2.setText("X2");
+        Button_X2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Button_Power1ActionPerformed(evt);
+                Button_X2ActionPerformed(evt);
             }
         });
 
-        Button_Power2.setText("Fire");
-        Button_Power2.addActionListener(new java.awt.event.ActionListener() {
+        Button_AddTime.setText("Add Time");
+        Button_AddTime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Button_Power2ActionPerformed(evt);
-            }
-        });
-
-        Button_Power3.setText("Block");
-        Button_Power3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Button_Power3ActionPerformed(evt);
-            }
-        });
-
-        Button_Power4.setText("Add Life");
-        Button_Power4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Button_Power4ActionPerformed(evt);
+                Button_AddTimeActionPerformed(evt);
             }
         });
 
@@ -469,25 +432,19 @@ public class GameplayWindow extends javax.swing.JFrame {
         Panel_PowerUpLayout.setHorizontalGroup(
             Panel_PowerUpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Panel_PowerUpLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Button_Power1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Button_Power2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Button_Power3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
+                .addComponent(Button_X2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Button_Power4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(Button_AddTime, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         Panel_PowerUpLayout.setVerticalGroup(
             Panel_PowerUpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Panel_PowerUpLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(Panel_PowerUpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Button_Power1)
-                    .addComponent(Button_Power2)
-                    .addComponent(Button_Power3)
-                    .addComponent(Button_Power4))
+                    .addComponent(Button_X2)
+                    .addComponent(Button_AddTime))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -500,7 +457,7 @@ public class GameplayWindow extends javax.swing.JFrame {
                 .addGroup(MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(Panel_TopLabels, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(MainPanelLayout.createSequentialGroup()
-                        .addGroup(MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(MainPanelLayout.createSequentialGroup()
                                 .addComponent(Grid_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -518,10 +475,13 @@ public class GameplayWindow extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(Grid_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(Grid_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(Panel_PowerUp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(Grid_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(69, 69, 69)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MainPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Panel_PowerUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(199, 199, 199))
         );
         MainPanelLayout.setVerticalGroup(
             MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -543,9 +503,9 @@ public class GameplayWindow extends javax.swing.JFrame {
                     .addComponent(Grid_6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Grid_8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Grid_7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addComponent(Panel_PowerUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -570,54 +530,27 @@ public class GameplayWindow extends javax.swing.JFrame {
         _newWindow.appear(true);
     }//GEN-LAST:event_Button_BackMousePressed
 
-    private void Button_Power4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power4ActionPerformed
+    private void Button_AddTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_AddTimeActionPerformed
         // Change the RIGHT value if you want to change how much should
         // the player cost per each use of ADD LIFE power-up
-        if(Integer.parseInt(Label_Score.getText()) >= 30){
-            Button_Power4.setEnabled(false);
-            _controller.addLife();
-            _powerUpTimer[3].start();
-            _controller.decreaseScore(30);
-        }
-    }//GEN-LAST:event_Button_Power4ActionPerformed
-
-    private void Button_Power1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power1ActionPerformed
-        // Change the RIGHT value if you want to change how much should
-        // the player cost per each use of FREEZE power-up
         if(Integer.parseInt(Label_Score.getText()) >= 10){
-            Button_Power1.setEnabled(false);
-            _powerUpTimer[0].start();
-            _spawner.randomDelayAll(2500, 5000);
-            _freezeTimer.start();
-            _controller.decreaseScore(10);
-        }
-    }//GEN-LAST:event_Button_Power1ActionPerformed
-
-    private void Button_Power2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power2ActionPerformed
-        // Change the RIGHT value if you want to change how much should
-        // the player cost per each use of KILL ALL power-up
-        if(Integer.parseInt(Label_Score.getText()) >= 20){
-            Button_Power2.setEnabled(false);
-            _spawner.killAll();
+            Button_AddTime.setEnabled(false);
             _powerUpTimer[1].start();
-            _controller.decreaseScore(20);
+            _controller.decreaseScore(10);
+            addTime();
         }
-    }//GEN-LAST:event_Button_Power2ActionPerformed
+    }//GEN-LAST:event_Button_AddTimeActionPerformed
 
-    private void Button_Power3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Power3ActionPerformed
+    private void Button_X2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_X2ActionPerformed
         // Change the RIGHT value if you want to change how much should
         // the player cost per each use of BLOCK power-up
         if(Integer.parseInt(Label_Score.getText()) >= 15){
-            Button_Power3.setEnabled(false);
-            _blockTimer.start();
-            Random rand = new Random();
-            _currentBlockIndex = rand.nextInt(0,9);
-            _spawner.stop(_currentBlockIndex);
-            _spawner.reset(_currentBlockIndex);
-            _powerUpTimer[2].start();
+            Button_X2.setEnabled(false);
+            _powerUpTimer[0].start();
             _controller.decreaseScore(15);
+            _controller.setMultiplier(2);
         }
-    }//GEN-LAST:event_Button_Power3ActionPerformed
+    }//GEN-LAST:event_Button_X2ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -652,11 +585,9 @@ public class GameplayWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Button_AddTime;
     private javax.swing.JButton Button_Back;
-    private javax.swing.JButton Button_Power1;
-    private javax.swing.JButton Button_Power2;
-    private javax.swing.JButton Button_Power3;
-    private javax.swing.JButton Button_Power4;
+    private javax.swing.JButton Button_X2;
     private javax.swing.JPanel Grid_0;
     private javax.swing.JPanel Grid_1;
     private javax.swing.JPanel Grid_2;
@@ -666,8 +597,6 @@ public class GameplayWindow extends javax.swing.JFrame {
     private javax.swing.JPanel Grid_6;
     private javax.swing.JPanel Grid_7;
     private javax.swing.JPanel Grid_8;
-    private javax.swing.JLabel Label_Life;
-    private javax.swing.JLabel Label_LifeImage;
     private javax.swing.JLabel Label_Melon0;
     private javax.swing.JLabel Label_Melon1;
     private javax.swing.JLabel Label_Melon2;
@@ -679,6 +608,7 @@ public class GameplayWindow extends javax.swing.JFrame {
     private javax.swing.JLabel Label_Melon8;
     private javax.swing.JLabel Label_Score;
     private javax.swing.JLabel Label_ScoreImage1;
+    private javax.swing.JLabel Label_Timer;
     private javax.swing.JPanel MainPanel;
     private javax.swing.JPanel Panel_PowerUp;
     private javax.swing.JPanel Panel_TopLabels;
