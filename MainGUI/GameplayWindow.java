@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.Timer;
 
@@ -30,14 +31,38 @@ public class GameplayWindow extends javax.swing.JFrame {
         this.add(popup);
         
         this.addMouseListener(new MouseAdapter() {
-            public void frameMouseReleased(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 if(e.isPopupTrigger())
-                    popup.show(e.getComponent(), e.getX(), e.getY());
+                    showPopupMenu(e);
             }
         });
+        
+        returnToMenuItem.addActionListener(e -> popupActionPerformed(e));
+        helpMenuItem.addActionListener(e -> popupActionPerformed(e));
+        aboutMenuItem.addActionListener(e -> popupActionPerformed(e));
     }
     
+    private void showPopupMenu(MouseEvent e) {
+        popup.show(e.getComponent(), e.getX(), e.getY());
+        
+    }
     
+    private void popupActionPerformed(ActionEvent e) {
+        if (e.getSource()==returnToMenuItem) {
+            MainMenu home = new MainMenu();
+            this.setVisible(false);
+            this.dispose();
+            home.setVisible(true);
+        }
+        if (e.getSource()==helpMenuItem) {
+            //display instructions
+            JOptionPane.showMessageDialog(this, "Welcome to Whack-a-Melon!\nGain as much points as you can before the timer runs out by reacting on growing watermelons on time!\n\nPowerups:\nIncrease time for -10 score\n2x Multiplier for -15 score","Instructions",JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (e.getSource()==aboutMenuItem) {
+            //
+            JOptionPane.showMessageDialog(this, "CS128-L BM1\nVersion 1.0 \n Renz Angel Aguirre (Leader) \nEvanescence Naad \n Paul Miguel Reonal \nClyde Kenneth Calub \nVon Derwin Caibigan","About",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
     //
     ImageSpawnerController _spawner = ImageSpawnerController.getInstance();
     ScoreController _controller = ScoreController.getInstance();
