@@ -4,10 +4,41 @@ import Scoreboard.ScoreController;
 import SpawnerLibrary.ImageSpawnerController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.Timer;
 
 public class GameplayWindow extends javax.swing.JFrame {
 
+    //v-JPopupMenu
+    //setup the popup menu, adding menuItems
+    JPopupMenu popup;
+    JMenuItem returnToMenuItem;
+    JMenuItem aboutMenuItem;
+    JMenuItem helpMenuItem;
+    private void initializePopupMenu() {
+        popup = new JPopupMenu();
+        helpMenuItem = new JMenuItem("Help");
+        aboutMenuItem = new JMenuItem("About");
+        returnToMenuItem = new JMenuItem("Home");
+        
+        popup.add(returnToMenuItem);
+        popup.add(helpMenuItem);
+        popup.add(aboutMenuItem);
+        this.add(popup);
+        
+        this.addMouseListener(new MouseAdapter() {
+            public void frameMouseReleased(MouseEvent e) {
+                if(e.isPopupTrigger())
+                    popup.show(e.getComponent(), e.getX(), e.getY());
+            }
+        });
+    }
+    
+    
+    //
     ImageSpawnerController _spawner = ImageSpawnerController.getInstance();
     ScoreController _controller = ScoreController.getInstance();
     int _currentBlockIndex = 0;
@@ -157,6 +188,9 @@ public class GameplayWindow extends javax.swing.JFrame {
         }
     }
     private void setUpSpawner(){
+        //
+        initializePopupMenu();
+        //
         _spawner.addPanel(Grid_0);
         _spawner.addPanel(Grid_1);
         _spawner.addPanel(Grid_2);
