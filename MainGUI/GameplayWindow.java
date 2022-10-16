@@ -44,7 +44,6 @@ public class GameplayWindow extends javax.swing.JFrame {
     
     private void showPopupMenu(MouseEvent e) {
         popup.show(e.getComponent(), e.getX(), e.getY());
-        
     }
     
     private void popupActionPerformed(ActionEvent e) {

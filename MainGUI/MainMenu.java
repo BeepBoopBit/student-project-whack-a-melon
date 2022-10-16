@@ -1,12 +1,61 @@
 package MainGUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+
 public class MainMenu extends javax.swing.JFrame {
 
     public MainMenu() {
         initComponents();
         this.setLocationRelativeTo(null);
+        initializePopupMenu();
     }
+    
+    //v-JPopupMenu
+    //setup the popup menu, adding menuItems
+    JPopupMenu popup;
+    JMenuItem returnToMenuItem;
+    JMenuItem aboutMenuItem;
+    JMenuItem helpMenuItem;
+    private void initializePopupMenu() {
+        JMenuBar _newMenu = new JMenuBar();
+        JMenuItem helpMenuItem = new JMenuItem("Help");
+        JMenuItem aboutMenuItem = new JMenuItem("About");
+                
+        _newMenu.add(helpMenuItem);
+        _newMenu.add(aboutMenuItem);
+        this.setJMenuBar(_newMenu);
 
+        this.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
+                if(e.isPopupTrigger())
+                    showPopupMenu(e);
+            }
+        });
+        helpMenuItem.addActionListener(e -> popupActionPerformed(e));
+        aboutMenuItem.addActionListener(e -> popupActionPerformed(e));
+    }
+    
+    private void showPopupMenu(MouseEvent e) {
+        popup.show(e.getComponent(), e.getX(), e.getY());
+    }
+    
+    private void popupActionPerformed(ActionEvent e) {
+        if (e.getSource()==helpMenuItem) {
+            JOptionPane.showMessageDialog(this, "Welcome to Whack-a-Melon!\nGain as much points as you can before the timer runs out by reacting on growing watermelons on time!\n\nPowerups:\nIncrease time for -10 score\n2x Multiplier for -15 score","Instructions",JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (e.getSource()==aboutMenuItem) {
+            JOptionPane.showMessageDialog(this, "CS128-L BM1\nVersion 1.0 \n Renz Angel Aguirre (Leader) \nEvanescence Naad \n Paul Miguel Reonal \nClyde Kenneth Calub \nVon Derwin Caibigan","About",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
