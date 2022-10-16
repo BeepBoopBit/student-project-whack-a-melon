@@ -14,6 +14,7 @@ public class DifficultyOption extends javax.swing.JFrame {
         // Proceed to the gameplay window
         GameplayWindow newWindow = new GameplayWindow(difficulty);
         newWindow.setVisible(true);
+        newWindow.setLocationRelativeTo(null);
         this.setVisible(false);
         this.dispose();
     }
