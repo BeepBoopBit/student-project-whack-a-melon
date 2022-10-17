@@ -24,8 +24,8 @@ public class MainMenu extends javax.swing.JFrame {
     JMenuItem helpMenuItem;
     private void initializePopupMenu() {
         JMenuBar _newMenu = new JMenuBar();
-        JMenuItem helpMenuItem = new JMenuItem("Help");
-        JMenuItem aboutMenuItem = new JMenuItem("About");
+        helpMenuItem = new JMenuItem("Help");
+        aboutMenuItem = new JMenuItem("About");
                 
         _newMenu.add(helpMenuItem);
         _newMenu.add(aboutMenuItem);

@@ -69,9 +69,9 @@ public class GameplayWindow extends javax.swing.JFrame {
     
     // take note that the delay of each spawn is randomize by this range
     // so Change the range to balance out the spawing of the watermelons
-    int _easy[] = {2000,3500};
-    int _medium[] = {1000,2500};
-    int _hard[] = {500,1500};
+    int _easy[] = {250,350};
+    int _medium[] = {350,450};
+    int _hard[] = {450,550};
     
     // NOTE: Every Timer Variable has the same explanation as _powerUpTimer[0]
     // Change the _elapseTime if you want to change how long the cooldown is:

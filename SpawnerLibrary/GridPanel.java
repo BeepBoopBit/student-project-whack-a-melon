@@ -52,8 +52,6 @@ class GridPanel {
                 break;
             case 2:
                 _label.setIcon(new ImageIcon(_paths[2]));
-                break;
-            case 3:
                 _gridState = -1;
                 break;
             default:
