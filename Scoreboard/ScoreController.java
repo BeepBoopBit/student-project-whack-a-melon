@@ -200,6 +200,10 @@ public class ScoreController {
                 try {
                     userInput = JOptionPane.showInputDialog("Enter your name: ");
         
+                    if(userInput == null){
+                        userInput = "Anonymous";
+                    }
+                    
                     //check if userInput is longer than the limit
                     if(userInput.length()>userInputLimit) {
                         throw new ArrayIndexOutOfBoundsException(); 
